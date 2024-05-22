@@ -6,11 +6,11 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:07:27 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/18 14:01:00 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/05/21 18:29:53 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "../include/fractol.h"
 
 
 t_RGB   ft_hsv_to_rgb(double h, double s, double v)
@@ -36,7 +36,7 @@ t_RGB   ft_hsv_to_rgb(double h, double s, double v)
         case 0: r = v, g = t, b = p; break; // red
         case 1: r = q, g = v, b = p; break; // yellow
         case 2: r = p, g = v, b = t; break; // green
-        case 3: r = p, g = q, b = v, break; // cyan
+        case 3: r = p, g = q, b = v; break; // cyan
         case 4: r = t, g = p, b = v; break; //blue
         case 5: r = v, g = p, b = q; break; // magenta 
     }
@@ -64,7 +64,7 @@ void    ft_colouring(double log_iterations, int max_iterations)
     color = ft_hsv_to_rgb(h, s, v);
 }
 
-void    (int iterations, int max_iterations, double modulus)
+void    aa(int iterations, int max_iterations, double modulus)
 {
     double  log_modulus;
     double  log_iterations;
