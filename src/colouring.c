@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:07:27 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/21 18:29:53 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/05/24 16:21:25 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void    ft_colouring(double log_iterations, int max_iterations)
     color = ft_hsv_to_rgb(h, s, v);
 }
 
-void    aa(int iterations, int max_iterations, double modulus)
+double  ft_log(int iterations, int max_iterations, double modulus)
 {
     double  log_modulus;
     double  log_iterations;
 
     log_modulus = log(modulus);
     log_iterations = iterations + 1 - log(log_modulus);
-    ft_colouring(log_iterations, max_iterations);
+    return (log_iterations);
 }

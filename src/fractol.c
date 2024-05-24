@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/24 14:45:42 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/05/24 16:40:14 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int ft_check(int argc, char **argv)
     if (argc != 6)
     {
         if (argc < 6)
-            return (ft_printf("Not enough arguments submitted."), NULL);
+            return (ft_printf("Not enough arguments submitted. Here are the needed parameters:"), NULL); // COMPLETE
         else if (argc > 6)
             return (ft_printf("Too much arguments submitted.", NULL));
     }
@@ -51,7 +51,7 @@ int ft_check(int argc, char **argv)
     // COLOR ?
 }
 
-void    ft_fractal(int argc, char **argv)
+int main(int argc, char **argv)
 {
     char    *type;
     int     max_iterations;
@@ -67,16 +67,16 @@ void    ft_fractal(int argc, char **argv)
     x = ft_atoi(argv[4]);
     y = ft_atoi(argv[5]);
     
-    ft_JM(x, y, max_iterations, type);
+    ft_rendering(x, y, max_iterations, type);
 }
 
     
-    log_escape_radius = log(escape_radius);
+    // log_escape_radius = log(escape_radius);
 
-    // coulouring
-    if (iterations < max_iterations)
-        ft_log(iterations, max_iterations, modulus);
-    else
+    // // coulouring
+    // if (iterations < max_iterations)
+    //     ft_log(iterations, max_iterations, modulus);
+    // else
         // colour = black
     // modulus = 0;
     // while (i < max_iterations)
