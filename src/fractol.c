@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/18 14:04:19 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:45:42 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,67 @@ option to have more parameters for rendering options
 if no parameters are entered --> display a list of available parameters and exit 
 */
 
+// typical user input: type (mandelbrot/julia), max iterations, color options, window height, window length
+
+int type(char *type)
+{
+    if (type == "julia" || type == "Julia")
+        return (ft_printf("Please enter your starting z value"), 1);
+    else if (type == "mandelbort" || type == "Mandelbrot")
+        return (1);
+    else 
+        return (printf("Invalid fractal type, please select one of those two: Julia/Mandelbrot"), NULL);
+}
+
+int ft_check(int argc, char **argv)
+{
+    if (argc != 6)
+    {
+        if (argc < 6)
+            return (ft_printf("Not enough arguments submitted."), NULL);
+        else if (argc > 6)
+            return (ft_printf("Too much arguments submitted.", NULL));
+    }
+    int_type_check(argv[1]);
+    else if (!ft_atoi(argv[2]) || !(ft_atoi(argv[4])) || !(ft_atoi(argv[5])))
+        return (NULL);
+    // COLOR ?
+}
+
 void    ft_fractal(int argc, char **argv)
 {
-    int i;
-    int max_iterations; // define an int or something else ?
-    t_complex z;
-    double escape_radius;
-    double log_escape_radius;
-    int iterations;
+    char    *type;
+    int     max_iterations;
+    char    *color_option;
+    int     x;
+    int     y;
 
-    i = 0;
-    max_iterations = 0;
-    z = {0.0, 0.0};
-    escape_radius = 0;
-    log_escape_radius = log(escape_radius);
-    iterations = 0;
+    ft_check(int argc, char **argv);
+
+    type = argv[1];
+    max_iterations = ft_atoi(argv[2]);
+    color_option = argv[3];
+    x = ft_atoi(argv[4]);
+    y = ft_atoi(argv[5]);
     
-    // create a grid of complex numbers 
+    ft_JM(x, y, max_iterations, type);
+}
 
-    // iterating to check for escapes 
-    double  modulus;
-
-    modulus = 0;
-    while (i < max_iterations)
-    {
-        // |z| < escape radius ? --> magnitude of z = √(aˆ2 + bˆ2) with z = a + bi
-        modulus = sqrt(pow(z.real) + pow(z.imaginary));
-        if (modulus < escape_radius)
-            // colour of the pixel = black
-        else
-            // color depends on the number of iterations needed to go to infinity 
-    }
+    
+    log_escape_radius = log(escape_radius);
 
     // coulouring
     if (iterations < max_iterations)
         ft_log(iterations, max_iterations, modulus);
     else
         // colour = black
-}
+    // modulus = 0;
+    // while (i < max_iterations)
+    // {
+    //     // |z| < escape radius ? --> magnitude of z = √(aˆ2 + bˆ2) with z = a + bi
+    //     modulus = sqrt(pow(z.real) + pow(z.imaginary));
+    //     if (modulus < escape_radius)
+    //         // colour of the pixel = black
+    //     else
+    //         // color depends on the number of iterations needed to go to infinity 
+    // }
