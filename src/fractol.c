@@ -6,11 +6,11 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/24 16:40:14 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:17:51 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "../include/fractol.h"
 #include <math.h>
 
 /*
@@ -24,30 +24,32 @@ option to have more parameters for rendering options
 if no parameters are entered --> display a list of available parameters and exit 
 */
 
-// typical user input: type (mandelbrot/julia), max iterations, color options, window height, window length
+// typical user input: type (mandelbrot/julia), z value, max iterations, color options, 
 
-int type(char *type)
+int type_check(char *type)
 {
-    if (type == "julia" || type == "Julia")
+    if (type == "J")
         return (ft_printf("Please enter your starting z value"), 1);
-    else if (type == "mandelbort" || type == "Mandelbrot")
+    else if (type == "M")
         return (1);
     else 
-        return (printf("Invalid fractal type, please select one of those two: Julia/Mandelbrot"), NULL);
+        return (printf("Invalid fractal type, please select one of those two: J (Julia)/ M (Mandelbrot)"), NULL);
 }
 
 int ft_check(int argc, char **argv)
 {
-    if (argc != 6)
-    {
-        if (argc < 6)
-            return (ft_printf("Not enough arguments submitted. Here are the needed parameters:"), NULL); // COMPLETE
-        else if (argc > 6)
-            return (ft_printf("Too much arguments submitted.", NULL));
-    }
-    int_type_check(argv[1]);
+	if (argc < 2)
+		return (ft_printf("Not enough arguments submitted, please select a fractal type (J/M).", 0));
+    else if (argv[1] == "J" && argc != 3)
+		return (ft_printf("Not enough arguments provided for a Julia, please provide the integer starting z value.", 0));
+    else if (argc > 5) // ADAPT THE # OF ARGS ACCORDINGLY 
+        return (ft_printf("Too much arguments submitted.", 0));
+    else if (!(type_check(argv[1])))
+		return (0);
     else if (!ft_atoi(argv[2]) || !(ft_atoi(argv[4])) || !(ft_atoi(argv[5])))
-        return (NULL);
+        return (0);
+	else 
+		return (1);
     // COLOR ?
 }
 
@@ -59,7 +61,7 @@ int main(int argc, char **argv)
     int     x;
     int     y;
 
-    ft_check(int argc, char **argv);
+    ft_check(argc, **argv);
 
     type = argv[1];
     max_iterations = ft_atoi(argv[2]);

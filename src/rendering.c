@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   jm.c                                               :+:      :+:    :+:   */
+/*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:05:20 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/24 16:38:08 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:09:20 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void    ft_JM(int x, int y, int max_iterations, char *type)
         j = 0;
         while (j < y)
         {
-            while ((pow(z.real, 2) + pow(z.imaginary)) < 4 && count < max_iterations) // |z| < 2 --> √(zxˆ2 + zyˆ2)
+            while ((pow(z.real, 2) + pow(z.imaginary, 2)) < 4 && count < max_iterations) // |z| < 2 --> √(zxˆ2 + zyˆ2)
             {
                 tempx = pow(z.real, 2) - pow(z.imaginary, 2) + c.real;
                 z.imaginary = 2 * z.real * z.imaginary + c.imaginary;
