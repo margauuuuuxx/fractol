@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/21 17:57:15 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:45:57 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,83 @@
 # include <math.h> // maths fcts 
 # include <mlx.h>
 
-// strcut to write pixels for an image
-typedef struct s_data {
+# define SIZE 700
+# define WIDTH 600
+
+// key codes
+# define ESC 53
+# define UP 126
+# define DOWN 125
+# define LEFT 123
+# define RIGHT 124
+# define R 15
+# define C 8
+# define H 4
+# define J 38
+# define P 35
+# define M 46
+
+// mouse codes 
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
+
+// struct for the imaginary and real part of complex numbers and struct to write pixels for an image
+typedef	struct s_fractal {
 	void	*image;
-	char	*address;
+	void	*mlx;
+	void	*window;
+	void	*address;
+	int		fractal_type;
+	int		color;
+	int		x;
+	int		y;
+	int		iterations;
+	int		max_iterations;
 	int		bpp; // = bites per pixel
-	int		line_length;
 	int		endian;
-} t_data;
+	int		line_length;
+	char	*name;
+	double	offset_x;
+	double	offset_y;
+	double	zoom;
+	double	zx;
+	double	zy;
+	double	cx;
+	double	cy;
+	double	temp;
+} t_fractal;
 
-// struct for the imaginary and real part of complex numbers 
-typedef struct s_complex {
-    double real;
-    double imaginary;
-} t_complex;
-
+// struct for color gradient 
 typedef struct s_RGB {
     int r;
     int g;
     int b;
 } t_RGB;
 
+// hook
+int		key_hook(int key, t_fractal *fractal);
+void	ft_zoom(t_fractal *fractal, int x, int y, int flag);
+int		mouse_hook(int mouse_code, int x, int y, t_fractal *fractal);
+int		exit_fractal(t_fractal *fractal);
+
+// julia
+void	ft_draw_julia(t_fractal *fractal);
+void	ft_julia(t_fractal *fractal);
+
+// main
+int		name_validity(char **argv, t_fractal *fractal);
+int		ft_draw_fractal(t_fractal *fractal, int type);
+void	fractal_initialization(t_fractal *fractal);
+void	mlx_initialization(t_fractal *fractal);
+
+// mandelbrot
+void	*ft_draw_mandelbrot(void *fractal_void);
+void	ft_mandelbrot(t_fractal *fractal);
+
+// utils 
+void	ft_put_pixel(t_fractal *fractal, int x, int y, t_RGB color);
+double	generate_random_c(void);
+void	set_random_julia(double *cx, double *cy);
+void	ft_change_iterations(t_fractal *fractal, int key_code);
 
 # endif 
