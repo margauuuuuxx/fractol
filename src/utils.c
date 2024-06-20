@@ -6,20 +6,20 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/19 17:43:38 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:55:30 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-void	ft_put_pixel(t_fractal *fractal, int x, int y, t_RGB color)
+void	ft_put_pixel(t_fractal *fractal, int x, int y, int color)
 {
-	char	        *dest;
-    unsigned int    color_int;
+	int	        *dest;
+   // unsigned int    color_int;
 
-    color_int = (color.r << 16) | (color.g << 8) | color.b; //then the int is in format 0xRRGGBB
-	dest = fractal->address + (y * fractal->line_length + x * (fractal->bpp / 8)); // for the row & column offset
-	*(unsigned int*)dest = color_int;
+    //color_int = (color.r << 16) | (color.g << 8) | color.b; //then the int is in format 0xRRGGBB
+	dest = fractal->ptr_to_image; // for the row & column offset
+	dest[(y * fractal->line_length / 4) + x] = color;
 }
 
 double	generate_random_c(void)

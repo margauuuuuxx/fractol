@@ -6,12 +6,13 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/19 16:07:15 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:10:42 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 #include <math.h>
+# include "../lib/libft/libft.h"
 
 /*
 This function has for objetive to render fractals for the Julia and Mandelbrot sets 
@@ -72,22 +73,27 @@ if no parameters are entered --> display a list of available parameters and exit
 //     ft_rendering(x, y, max_iterations, type);
 // }
 
-int		name_validity(char **argv, t_fractal *fractal)
+int		name_validity(char *name, t_fractal *fractal)
 {
-	if (ft_strcmp(argv[1], "mandelbrot") == 0)
-		fractal->fractal_type = 0;
-	else if (ft_strcmp(argv[1], "julia") == 0)
+	if (ft_strncmp((const char *)name, "mandelbrot", 11) == 0)
+	{
 		fractal->fractal_type = 1;
+		return (1);
+	}
+	else if (ft_strncmp((const char *)name, "julia", 7) == 0)
+	{
+		fractal->fractal_type = 2;
+		return (2);
+	}
 	else
 		return (0);
-	return (1);
 }
 
 int	ft_draw_fractal(t_fractal *fractal, int type)
 {
-	if (type == 0)
+	if (type == 1)
 		ft_draw_mandelbrot(fractal);
-	else if (type == 1)
+	else if (type == 2)
 	{
 		if (!fractal->cx && !fractal->cy)
 		{
@@ -128,16 +134,21 @@ int main(int argc, char **argv)
 {
 	t_fractal	*fractal;
 	
-	if (!(fractal = (t_fractal *)malloc(sizeof(t_fractal))));
+	fractal = (t_fractal *)malloc(sizeof(t_fractal));
+	if (!(fractal))
 		return (-1);
 	if (name_validity(argv[1], fractal) == 0 || argc != 2)
-		return (ft_printf("Please select a valid fractal type: mandelbrot / julia"), NULL);
+	{
+		ft_printf("Please select a valid fractal type: mandelbrot / julia");
+		return (0);
+	}
 	mlx_initialization(fractal);
 		if (argc == 2)
 	fractal_initialization(fractal);
 	mlx_key_hook(fractal->window, key_hook, fractal);
 	mlx_mouse_hook(fractal->window, mouse_hook, fractal);
 	mlx_hook(fractal->window, 17, 0L, exit_fractal, fractal); // 17 = close window | 0L = no mask needed: window close is straightforward with no subtypes
+	fractal->fractal_type = name_validity(argv[1], fractal);
 	ft_draw_fractal(fractal, fractal->fractal_type);
 }
 

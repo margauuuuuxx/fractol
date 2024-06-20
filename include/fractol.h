@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/19 17:45:57 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:53:35 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <string.h> // for strerror 
 # include <math.h> // maths fcts 
 # include <mlx.h>
+# include "../lib/printf/includes/ft_printf.h"
+# include "../lib/libft/libft.h"
 
 # define SIZE 700
 # define WIDTH 600
@@ -44,6 +46,7 @@
 // struct for the imaginary and real part of complex numbers and struct to write pixels for an image
 typedef	struct s_fractal {
 	void	*image;
+	void	*ptr_to_image;
 	void	*mlx;
 	void	*window;
 	void	*address;
@@ -85,7 +88,7 @@ void	ft_draw_julia(t_fractal *fractal);
 void	ft_julia(t_fractal *fractal);
 
 // main
-int		name_validity(char **argv, t_fractal *fractal);
+int		name_validity(char *argv, t_fractal *fractal);
 int		ft_draw_fractal(t_fractal *fractal, int type);
 void	fractal_initialization(t_fractal *fractal);
 void	mlx_initialization(t_fractal *fractal);
@@ -95,7 +98,7 @@ void	*ft_draw_mandelbrot(void *fractal_void);
 void	ft_mandelbrot(t_fractal *fractal);
 
 // utils 
-void	ft_put_pixel(t_fractal *fractal, int x, int y, t_RGB color);
+void	ft_put_pixel(t_fractal *fractal, int x, int y, int color);
 double	generate_random_c(void);
 void	set_random_julia(double *cx, double *cy);
 void	ft_change_iterations(t_fractal *fractal, int key_code);
