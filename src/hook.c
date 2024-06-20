@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:29:12 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/19 17:45:02 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:00:42 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int key_hook(int key_code, t_fractal *fractal)
 		set_random_julia(&fractal->cx, &fractal->cx);
 	else if (key_code == M || key_code == P)
 		ft_change_iterations(fractal, key_code);
-	ft_draw_fractal(fractal, fractal->fractal_type);
+	ft_draw_fractal(fractal, fractal->name);
 	return (0);	
 }
 /*
@@ -79,7 +79,7 @@ int	mouse_hook(int mouse_code, int x, int y, t_fractal *fractal)
 		ft_zoom(fractal, x, y, 1);
 	if (mouse_code == SCROLL_DOWN)
 		ft_zoom(fractal, x, y, -1);
-	ft_draw_fractal(fractal, fractal->fractal_type);
+	ft_draw_fractal(fractal, fractal->name);
 	return (0);
 }
 

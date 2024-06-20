@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 12:53:35 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:13:46 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "../lib/printf/includes/ft_printf.h"
 # include "../lib/libft/libft.h"
 
-# define SIZE 700
-# define WIDTH 600
+# define SIZE 1080
+# define WIDTH 1920
 
 // key codes
 # define ESC 53
@@ -50,7 +50,6 @@ typedef	struct s_fractal {
 	void	*mlx;
 	void	*window;
 	void	*address;
-	int		fractal_type;
 	int		color;
 	int		x;
 	int		y;
@@ -88,8 +87,8 @@ void	ft_draw_julia(t_fractal *fractal);
 void	ft_julia(t_fractal *fractal);
 
 // main
-int		name_validity(char *argv, t_fractal *fractal);
-int		ft_draw_fractal(t_fractal *fractal, int type);
+//int		name_validity(char *argv, t_fractal *fractal);
+int		ft_draw_fractal(t_fractal *fractal, char *type);
 void	fractal_initialization(t_fractal *fractal);
 void	mlx_initialization(t_fractal *fractal);
 

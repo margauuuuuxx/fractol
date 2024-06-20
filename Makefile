@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2024/06/20 11:44:07 by marlonco         ###   ########.fr        #
+#    Updated: 2024/06/20 14:35:21 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ NAME	= fractol
 
 # Compiler
 CC		= gcc
-CFLAGS	= -Werror -Wextra -Wall
+CFLAGS	= -Werror -Wextra -Wall -g3
 
 # Minilibx
 # MLX_PATH	= ./lib/minilibx
@@ -133,7 +133,7 @@ $(PRINTF):
 
 $(NAME): $(OBJS)
 	@echo "Compiling fractol..."
-	@$(CC) -fsanitize=address -g $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF) $(INC) -lmlx -framework OpenGL -framework AppKit 
+	@$(CC) -fsanitize=address -g3 $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF) $(INC) -lmlx -framework OpenGL -framework AppKit 
 	@echo "Fractol ready."
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:27:49 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 12:51:57 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:43:32 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*ft_draw_mandelbrot(void *fractal_void)
 	fractal = (t_fractal *)fractal_void;
 	fractal->x = 0;
 	fractal->y = 0;
-	while (fractal->x < SIZE)
+	while (fractal->x < WIDTH)
 	{
 		while (fractal->y < SIZE)
 		{

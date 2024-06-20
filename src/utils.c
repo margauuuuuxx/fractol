@@ -6,20 +6,39 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 12:55:30 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:39:53 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
+#include <stdio.h>
 
 void	ft_put_pixel(t_fractal *fractal, int x, int y, int color)
 {
-	int	        *dest;
-   // unsigned int    color_int;
+	// int	**dest;
+	// (void)color;
+	// (void)y;
+	// (void)x;
+	
+	// dest = (int **)malloc((SIZE * WIDTH) * sizeof(int *));
+	// if (!dest)
+	// {
+	// 	return ;
+	// }
+	// *dest = fractal->ptr_to_image; // for the row & column offset
+	
+	// dest[0] = &color;
 
-    //color_int = (color.r << 16) | (color.g << 8) | color.b; //then the int is in format 0xRRGGBB
-	dest = fractal->ptr_to_image; // for the row & column offset
-	dest[(y * fractal->line_length / 4) + x] = color;
+	char	*dest;
+	
+	dest = NULL;
+	if (!(x < 0 || x > WIDTH) || !(y < 0 || y > SIZE))
+	{
+		//printf("fract adress ; %p\n fract line_lenght %d\n bpp %d\n", fractal->address, fractal->line_length, fractal->bpp);
+		
+		dest = fractal->address + (y * fractal->line_length + x * (fractal->bpp / 8)); 
+		*(unsigned int *)dest = color;
+	}
 }
 
 double	generate_random_c(void)
