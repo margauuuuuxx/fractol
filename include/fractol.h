@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 15:13:46 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:29:34 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 # include <string.h> // for strerror 
 # include <math.h> // maths fcts 
 # include <mlx.h>
+# include <pthread.h>
 # include "../lib/printf/includes/ft_printf.h"
 # include "../lib/libft/libft.h"
 
-# define SIZE 1080
+# define HEIGHT 1080
 # define WIDTH 1920
+# define THREADS 8
+# define ZOOM 1.0f
 
 // key codes
 # define ESC 53
@@ -42,64 +45,153 @@
 // mouse codes 
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
+# define MOUSE_CURSOR 6
 
-// struct for the imaginary and real part of complex numbers and struct to write pixels for an image
+typedef struct s_mlx	t_mlx; // we define it here because we need t_mlx in t_thread but we need t_thread in t_mlx 
+
+// complex number struct
+typedef struct	s_complex {
+	double	r;
+	double	i;
+} t_complex;
+
+// viewport struct
+typedef struct	s_viewport {
+	double		xmin;
+	double		xmax;
+	double		ymin;
+	double		ymax;
+	double		zoom;
+	double		offsetx;
+	double		offsety;
+	long		max;
+	t_complex	mouse;
+}	t_viewport;
+
+// pixel struct 
+typedef struct s_pixel {
+	t_complex	c;
+	long		j;
+}	t_pixel;
+
+// fractal struct
+typedef void	(*t_f_fn_v) (t_viewport *v); //instead of writing 'void (*) (t_viewport *) i can simply use ptr_ft_viewport, this points to a fct that takes a t_viewport as argument and returns void
+typedef	t_pixel	(*t_f_fn_p) (int x, int y, t_viewport *v, t_mlx *mlx); // points to a function that returns a t_pixel
 typedef	struct s_fractal {
+	char			*name;
+	t_f_fn_v		viewport;
+	t_f_fn_p		pixel;
+	int				mouse;
+} t_fractal;
+
+// image struct
+typedef struct	s_image {
 	void	*image;
-	void	*ptr_to_image;
-	void	*mlx;
-	void	*window;
-	void	*address;
-	int		color;
+	char	*ptr;
+	int		bpp;
+	int		line_length; // number of bytes per row of the image (also called stride)
+	int		endian;
+}	t_image;
+
+// mouse struct
+typedef struct 	s_mouse {
+	char	isdown;
 	int		x;
 	int		y;
-	int		iterations;
-	int		max_iterations;
-	int		bpp; // = bites per pixel
-	int		endian;
-	int		line_length;
-	char	*name;
-	double	offset_x;
-	double	offset_y;
-	double	zoom;
-	double	zx;
-	double	zy;
-	double	cx;
-	double	cy;
-	double	temp;
-} t_fractal;
+	int		lastx;
+	int		lasty;
+}	t_mouse;
+
+// palette struct
+typedef struct s_palette {
+	uint8_t	count; // since the max value of count is 16, we use this data type, ranging from 0 to 255 for more efficient memory allocation (only use 1 bite VS an int use 4)
+	int		cycle;
+	int		colors[16];
+}	t_palette;
+
+// struct for color gradient 
+typedef struct s_color_RGB {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} t_color_RGB;
+
+// render struct
+typedef struct s_thread {
+	int		id;
+	t_mlx	*mlx;
+}	t_thread;
+
+typedef struct s_render {
+	pthread_t	threads[THREADS];
+	t_thread	args[THREADS];
+}	t_render;
+
+// mlx struct 
+typedef struct s_mlx {
+
+	void		*mlx;
+	void		*window;
+	t_fractal	*fractal;
+	t_pixel		*data;
+	t_image		*image;
+	t_mouse		mouse;
+	t_viewport	*viewport;
+	t_color_RGB	color;
+	t_render	*render;
+	int			smooth;
+	int			mouselock;
+}	t_mlx;
 
 // struct for color gradient 
 typedef struct s_RGB {
-    int r;
-    int g;
-    int b;
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
 } t_RGB;
 
+// colouring
+t_color_RGB	ft_color_init(void);
+
 // hook
-int		key_hook(int key, t_fractal *fractal);
-void	ft_zoom(t_fractal *fractal, int x, int y, int flag);
-int		mouse_hook(int mouse_code, int x, int y, t_fractal *fractal);
+void	ft_zoom(int x, int y, t_viewport *v, double z);
+int		hook_mousemovement(int mouse_code, int x, int y, t_mlx *mlx);
+int		hook_mouseend(int mouse_code, t_mlx *mlx);
+int		hook_mousecursor(int x, int y, t_mlx *mlx);
 int		exit_fractal(t_fractal *fractal);
+
+// int
+t_image	*ft_del_image(t_mlx *mlx, t_image *image);
+t_image	*ft_new_image(t_mlx *mlx);
+t_mlx	*ft_deletemlx(t_mlx *mlx);
+t_mlx	*ft_mlx_init(t_fractal * fractal);
 
 // julia
 void	ft_draw_julia(t_fractal *fractal);
 void	ft_julia(t_fractal *fractal);
 
 // main
-//int		name_validity(char *argv, t_fractal *fractal);
-int		ft_draw_fractal(t_fractal *fractal, char *type);
-void	fractal_initialization(t_fractal *fractal);
-void	mlx_initialization(t_fractal *fractal);
+int		ft_name_check(char *name);
+int		ft_die(char *reason);
 
 // mandelbrot
 void	*ft_draw_mandelbrot(void *fractal_void);
 void	ft_mandelbrot(t_fractal *fractal);
+
+// rendering
+void	*ft_render_thread(void *args);
+void	ft_draw(t_mlx *mlx);
+void	ft_render(t_mlx *mlx);
 
 // utils 
 void	ft_put_pixel(t_fractal *fractal, int x, int y, int color);
 double	generate_random_c(void);
 void	set_random_julia(double *cx, double *cy);
 void	ft_change_iterations(t_fractal *fractal, int key_code);
+
+// viewport
+void		ft_viewport_fit(t_viewport *v);
+void		ft_viewport_init(t_mlx *mlx);
+t_complex	ft_complex_conversion(int x, int y, t_viewport *v);
 
 # endif 

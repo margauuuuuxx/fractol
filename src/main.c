@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 15:50:34 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:37:23 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,69 +22,48 @@ option to have more parameters for rendering options
 if no parameters are entered --> display a list of available parameters and exit 
 */
 
-int	ft_draw_fractal(t_fractal *fractal, char *type)
+int	ft_name_check(char *name)
 {
-	if ((ft_strncmp((const char *)type, "mandelbrot", 11) == 0))
-		ft_draw_mandelbrot(fractal);
-	else if (ft_strncmp((const char *)type, "julia", 6) == 0)
-	{
-		if (!fractal->cx && !fractal->cy)
-		{
-			fractal->cx = -0.745429;
-			fractal->cy = -0.05;
-		}
-		ft_draw_julia(fractal);
-	}
+	if ((ft_strncmp((const char *)name, "mandelbrot", 11) == 0)
+			|| (ft_strncmp((const char *)name, "julia", 6) == 0))
+		return (1);
 	else
-	{
-		ft_printf("Please select a valid fractal type: mandelbrot / julia");
-		exit_fractal(fractal);
-	}
-	mlx_put_image_to_window(fractal->mlx, fractal->window, fractal->image, 0, 0);
+		return (0);
+}
+
+int	ft_die(char *reason)
+{
+	ft_printf(reason);
+	return (1);
+}
+
+int	hook_expose(t_mlx *mlx)
+{
+	render(mlx);
 	return (0);
-}
-
-void	fractal_initialization(t_fractal *fractal)
-{
-	fractal->x = 0;
-	fractal->y = 0;
-	fractal->color = 0xFCBE11;
-	fractal->offset_x = -1.21;
-	fractal->offset_y = -1.21;
-	fractal->max_iterations = 42;
-}
-
-void	mlx_initialization(t_fractal *fractal)
-{
-	fractal->mlx = mlx_init();
-	fractal->window = mlx_new_window(fractal->mlx, WIDTH, SIZE, "Fractol");
-	fractal->image = mlx_new_image(fractal->mlx, WIDTH, SIZE);
-	fractal->address = mlx_get_data_addr(fractal->image, &fractal->bpp, 
-										&fractal->line_length, &fractal->endian);
 }
 
 int main(int argc, char **argv)
 {
 	t_fractal	*fractal;
+	t_mlx		*mlx;
 	
-	fractal = (t_fractal *)malloc(sizeof(t_fractal));
-	if (!(fractal))
-		return (-1);
 	if (argc != 2)
-	{
-		ft_printf("Please enter a valid fractal type: mandelbrot / julia");
-		return (0);
-	}
-	mlx_initialization(fractal);
-	fractal_initialization(fractal);
-	//fractal_type(argv[1], fractal);
-	printf("zoom : %f", fractal->zoom);
-	mlx_key_hook(fractal->window, key_hook, fractal);
-	mlx_mouse_hook(fractal->window, mouse_hook, fractal);
-	mlx_hook(fractal->window, 17, 0L, exit_fractal, fractal); // 17 = close window | 0L = no mask needed: window close is straightforward with no subtypes
-	ft_draw_fractal(fractal, argv[1]);
-	
-	mlx_loop(fractal->mlx);
+		return (ft_die("Too much or not enough arguments."));
+	if (ft_name_check(argv[1]) == 1)
+		fractal->name = argv[1];
+	else 
+		return(ft_die("Please type in a valid fractal name: julia  mandelbrot"));
+	if ((mlx = ft_mlx_init(fractal)) == NULL)
+		return(ft_die("MLX couldn't initialize properly."));
+	ft_viewport_init(mlx);
+	mlx_key_hook(mlx->window, key_hook, mlx);
+	mlx_expose_hook(mlx->window, hook_expose, mlx); // what is this fct ?
+	mlx_hook(mlx->window, SCROLL_UP, 1L << 2, hook_mousemovement, mlx);
+	mlx_hook(mlx->window, SCROLL_DOWN, 1L << 3, hook_mouseend, mlx);
+	mlx_hook(mlx->window, MOUSE_CURSOR, 1L << 6, hook_mousecursor, mlx;)
+	mlx_hook(mlx->window, 17, 0L, exit_fractal, mlx); // 17 = close window | 0L = no mask needed: window close is straightforward with no subtypes
+	mlx_loop(mlx->mlx);
 	return (0);
 }
 

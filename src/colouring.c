@@ -6,12 +6,22 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:07:27 by marlonco          #+#    #+#             */
-/*   Updated: 2024/05/28 15:15:54 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:29:16 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
+
+t_color_RGB	ft_color_init(void)
+{
+	t_color_RGB	color;
+
+	color.r = 0;
+	color.g	= 0;
+	color.b	= 0;
+	return (color);
+}
 
 t_RGB   ft_hsv_to_rgb(double h, double s, double v)
 {

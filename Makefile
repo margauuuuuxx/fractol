@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2024/06/20 14:35:21 by marlonco         ###   ########.fr        #
+#    Updated: 2024/06/22 15:02:12 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ INC			=	-I ./include/\
 
 # Sources
 SRC_PATH	=	src/
-SRC			=	hook.c julia.c main.c mandelbrot.c utils.c
+SRC			=	hook.c init.c julia.c main.c mandelbrot.c rendering.c utils.c viewport.c
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
 # Objects
