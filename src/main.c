@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/22 14:37:23 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:42:15 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_die(char *reason)
 
 int	hook_expose(t_mlx *mlx)
 {
-	render(mlx);
+	ft_render(mlx);
 	return (0);
 }
 
@@ -48,6 +48,9 @@ int main(int argc, char **argv)
 	t_fractal	*fractal;
 	t_mlx		*mlx;
 	
+	fractal = malloc(sizeof(t_fractal));
+	if (fractal == NULL)
+		return (1);
 	if (argc != 2)
 		return (ft_die("Too much or not enough arguments."));
 	if (ft_name_check(argv[1]) == 1)
@@ -61,7 +64,7 @@ int main(int argc, char **argv)
 	mlx_expose_hook(mlx->window, hook_expose, mlx); // what is this fct ?
 	mlx_hook(mlx->window, SCROLL_UP, 1L << 2, hook_mousemovement, mlx);
 	mlx_hook(mlx->window, SCROLL_DOWN, 1L << 3, hook_mouseend, mlx);
-	mlx_hook(mlx->window, MOUSE_CURSOR, 1L << 6, hook_mousecursor, mlx;)
+	mlx_hook(mlx->window, MOUSE_CURSOR, 1L << 6, hook_mousecursor, mlx);
 	mlx_hook(mlx->window, 17, 0L, exit_fractal, mlx); // 17 = close window | 0L = no mask needed: window close is straightforward with no subtypes
 	mlx_loop(mlx->mlx);
 	return (0);

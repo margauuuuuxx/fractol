@@ -6,55 +6,44 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:27:49 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 15:43:32 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:45:26 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-void	*ft_draw_mandelbrot(void *fractal_void)
+t_pixel    ft_mandelbrot(int x, int y, t_viewport *v, t_mlx *mlx)
 {
-	t_fractal	*fractal;
-	
-	fractal = (t_fractal *)fractal_void;
-	fractal->x = 0;
-	fractal->y = 0;
-	while (fractal->x < WIDTH)
-	{
-		while (fractal->y < SIZE)
-		{
-			ft_mandelbrot(fractal);
-			fractal->y++;	
-		}
-		fractal->x++;
-		fractal->y = 0;
-	}
-	return (NULL);
-}
+	t_complex	z;
+	t_complex	c;
+	t_complex	temp;
+	int			i;
 
-void    ft_mandelbrot(t_fractal *fractal)
-{
-	int		i;
-	double	temp;
-
+	(void)mlx;
 	i = 0;
-    fractal->name = "mandelbrot";
-    fractal->zx = 0.0;
-	fractal->zy = 0.0;
-	fractal->cx = (fractal->x / fractal->zoom) + fractal->offset_x;
-	fractal->cy = (fractal->y / fractal->zoom) + fractal->offset_y;
-	
-    while (i < fractal->max_iterations)
+    z = ft_complex_conversion(x, y, v);
+	c = ft_complex_conversion(x, y,v);
+    while (pow(z.r, 2) + pow(z.i, 2) < 256 && i < v->max)
     {
-        temp = pow(fractal->zx, 2) - pow(fractal->zy, 2) + fractal->cx;
-        fractal->zy = 2 * fractal->zx * fractal->zy + fractal->cy;
-        fractal->zx = temp;
-		if (pow(fractal->zx, 2) + pow(fractal->zy, 2) >= __DBL_MAX__)
+        temp.r = pow(z.r, 2) - pow(z.i, 2) + c.r;
+        temp.i = 2 * z.r * z.i + c.i;
+		if (z.r == temp.r && z.i == temp.i)
+		{
+			i = v->max;
 			break;
+		}
+		z.r = temp.r;
+		z.i = temp.i;
     	i++;
     }
-	if (i == fractal->max_iterations)
-		ft_put_pixel(fractal, fractal->x, fractal->y, 0x000000); 
-	else
-		ft_put_pixel(fractal, fractal->x, fractal->y, (fractal->color * (i % 255)));
+	return ((t_pixel){.c = z, .i = i});
+}
+
+void	ft_mandelbrot_viewport(t_viewport *v)
+{
+	v->xmin = -2.0f;
+	v->xmax = 1.0f;
+	v->ymin = -1.0f;
+	v->ymax = 1.0f;
+	v->offsetx = -0.5f;
 }

@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/21 20:10:13 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:43:29 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_render_thread(void *args)
 		x = 0;
 		while (x < WIDTH)
 		{
-			*(t->mlx->data + y * WIDTH + x) = t->mlx->fractal.pixel(x, y, &t->mlx->viewport, t->mlx); // ??
+			*(t->mlx->data + y * WIDTH + x) = t->mlx->fractal->pixel(x, y, t->mlx->viewport, t->mlx); // ??
 			x++;
 		}
 		y++;
@@ -62,7 +62,7 @@ void	ft_render(t_mlx *mlx)
 	t_render	*r;
 
 	i = 0;
-	r = &mlx->render; // en gros je dis aue l'adresse de ce qui se trouve a mlx.render = r donc les deux sont =
+	r = mlx->render; // en gros je dis aue l'adresse de ce qui se trouve a mlx.render = r donc les deux sont =
 	while (i < THREADS)
 	{
 		r->args[i].id = i;

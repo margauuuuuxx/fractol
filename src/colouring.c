@@ -6,12 +6,56 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:07:27 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/22 15:29:16 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:01:47 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
+void	ft_set_pixel(t_image *image, int x, int y, int color)
+{
+	if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT)
+		return;
+	*(int *)(image->ptr + ((x + y * WIDTH) * image->bpp)) = color;
+}
+
+t_color	ft_linear(double i, int max, t_palette *p)
+{
+	double	j;
+	double	adjust;
+	int		k;
+
+	if (p->cycle)
+		j = fmod(i, p->cycle - 1) / (p->cycle -1);
+	else
+		j = i / max;
+	k = p->count - 1;
+	adjust = fmod(j, 1.0f / k) * k;
+	return
+}
+
+t_color	ft_smooth(t_pixel p, int max, t_palette *pal)
+{
+	double	i;
+	double	z;
+	double	n;
+
+	z = log(pow(p.c.r, 2) + pow(p.c.i, 2)) / 2.0f;
+	n = log(z / log(2)) / log(2);
+	i = p.i + i - n;
+	if (i < 0)
+		i = 0;
+	return(ft_linear(i, max, pal));
+}
+
+int	ft_get_color(t_pixel p, t_mlx *mlx)
+{
+	if (p.i >= mlx->viewport->max)
+		return (0x000000);
+	if (mlx->smooth)
+		return(ft_smooth(p, mlx->viewport->max, mlx->color).value);
+	return (ft_linear((double)p.i, mlx->viewport->max, mlx->color).value);
+}
 
 t_color_RGB	ft_color_init(void)
 {
@@ -23,7 +67,7 @@ t_color_RGB	ft_color_init(void)
 	return (color);
 }
 
-t_RGB   ft_hsv_to_rgb(double h, double s, double v)
+t_color   ft_hsv_to_rgb(t_color c1, t_color c2, t_color c3)
 {
     double  r;
     double  g;

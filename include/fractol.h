@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/22 15:29:34 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:53:22 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct	s_viewport {
 // pixel struct 
 typedef struct s_pixel {
 	t_complex	c;
-	long		j;
+	long		i;
 }	t_pixel;
 
 // fractal struct
@@ -150,10 +150,18 @@ typedef struct s_RGB {
     uint8_t b;
 } t_RGB;
 
+// struct for color
+typedef union u_color { //union is when all the components share the same memory so you can access only 1 value at a time
+	int	value;
+	t_RGB	rgb;
+}	t_color;
+
 // colouring
+void		ft_set_pixel(t_image *image, int x, int y,int color);
 t_color_RGB	ft_color_init(void);
 
 // hook
+int		key_hook(int key_code, t_mlx *mlx);
 void	ft_zoom(int x, int y, t_viewport *v, double z);
 int		hook_mousemovement(int mouse_code, int x, int y, t_mlx *mlx);
 int		hook_mouseend(int mouse_code, t_mlx *mlx);
@@ -167,16 +175,16 @@ t_mlx	*ft_deletemlx(t_mlx *mlx);
 t_mlx	*ft_mlx_init(t_fractal * fractal);
 
 // julia
-void	ft_draw_julia(t_fractal *fractal);
-void	ft_julia(t_fractal *fractal);
+t_pixel	ft_julia(int x, int y, t_viewport *v, t_mlx *mlx);
+void	ft_julia_viewport(t_viewport *v);
 
 // main
 int		ft_name_check(char *name);
 int		ft_die(char *reason);
 
 // mandelbrot
-void	*ft_draw_mandelbrot(void *fractal_void);
-void	ft_mandelbrot(t_fractal *fractal);
+t_pixel	ft_mandelbrot(int x, int y, t_viewport *v, t_mlx *mlx);
+void	ft_mandelbrot_viewport(t_viewport *v);
 
 // rendering
 void	*ft_render_thread(void *args);
