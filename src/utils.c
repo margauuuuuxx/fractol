@@ -6,12 +6,11 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/20 15:39:53 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 12:00:58 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
-#include <stdio.h>
 
 void	ft_put_pixel(t_fractal *fractal, int x, int y, int color)
 {
@@ -52,16 +51,11 @@ void	set_random_julia(double *cx, double *cy)
 	*cy = generate_random_c();
 }
 
-void	ft_change_iterations(t_fractal *fractal, int key_code)
+// linear interpolation
+double	map(double unscaled_nbr, double new_min, double new_max, double old_min, double old_max)
 {
-	if (key_code == M)
-	{
-		if (fractal->max_iterations > 42)
-			fractal->max_iterations -= 42;
-	}
-	else if (key_code == P)
-	{
-		if (fractal->max_iterations < 4200)
-			fractal->max_iterations += 42;
-	}
+	return (new_max - new_min) * (unscaled_nbr - old_min) / (old_max - old_min) + new_min;	
 }
+
+
+

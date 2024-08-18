@@ -6,27 +6,26 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/24 11:53:22 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:58:52 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <fcntl.h> // for open
-# include <unistd.h> // for close, read and write
-# include <stdlib.h> // for malloc and exit
-# include <errno.h> // for errno
-# include <string.h> // for strerror 
-# include <math.h> // maths fcts 
-# include <mlx.h>
-# include <pthread.h>
-# include "../lib/printf/includes/ft_printf.h"
+// # include <fcntl.h> 
+# include <unistd.h> 
+# include <stdlib.h> 
+// # include <errno.h> 
+# include <string.h> 
+# include <math.h> 
+# include <stdio.h>
+# include "../lib/minilibx/mlx.h"
 # include "../lib/libft/libft.h"
+# include "../lib/printf/includes/ft_printf.h"
 
-# define HEIGHT 1080
 # define WIDTH 1920
-# define THREADS 8
+# define HEIGHT 1080
 # define ZOOM 1.0f
 
 // key codes
@@ -53,7 +52,7 @@ typedef struct s_mlx	t_mlx; // we define it here because we need t_mlx in t_thre
 typedef struct	s_complex {
 	double	r;
 	double	i;
-} t_complex;
+}	t_complex;
 
 // viewport struct
 typedef struct	s_viewport {
@@ -74,24 +73,25 @@ typedef struct s_pixel {
 	long		i;
 }	t_pixel;
 
-// fractal struct
-typedef void	(*t_f_fn_v) (t_viewport *v); //instead of writing 'void (*) (t_viewport *) i can simply use ptr_ft_viewport, this points to a fct that takes a t_viewport as argument and returns void
-typedef	t_pixel	(*t_f_fn_p) (int x, int y, t_viewport *v, t_mlx *mlx); // points to a function that returns a t_pixel
-typedef	struct s_fractal {
-	char			*name;
-	t_f_fn_v		viewport;
-	t_f_fn_p		pixel;
-	int				mouse;
-} t_fractal;
-
-// image struct
+// image struct (from mlx_get_data_addr())
 typedef struct	s_image {
-	void	*image;
-	char	*ptr;
+	void	*image_ptr;
+	char	*pixels_ptr; // pointing to 1 byte
 	int		bpp;
 	int		line_length; // number of bytes per row of the image (also called stride)
 	int		endian;
 }	t_image;
+
+// fractal struct
+typedef struct s_fractal
+{
+	void	*mlx_connection; // mlx_init()
+	void	*mlx_window; // mlx_new_window()
+	t_image	image;
+	char	*name;
+	double	escape_radius;
+	int		iterations_nbr;
+}	t_fractal;
 
 // mouse struct
 typedef struct 	s_mouse {

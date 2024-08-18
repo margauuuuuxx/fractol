@@ -6,67 +6,84 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/22 15:26:19 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 14:01:20 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
 /*
-This file has for objective to initialize our mlx. 
-t-mlx itself being constituted of multiple structs, from whom t_image, t_mouse, t_fractal and t_palette
+Key objectives:
+	1) Initialize mlx ;
+	2) Listening events ;
+	3) Hooks data
 */
 
-t_image	*ft_del_image(t_mlx *mlx, t_image *image)
+// t_image	*ft_del_image(t_mlx *mlx, t_image *image)
+// {
+// 	if (image != NULL)
+// 	{
+// 		if (image->image != NULL)
+// 			mlx_destroy_image(mlx->mlx, image->image);
+// 		// memdel
+// 	}
+// 	return (NULL);	
+// }
+
+// t_mlx	*ft_deletemlx(t_mlx *mlx)
+// {
+// 	if (mlx->window != NULL)
+// 		mlx_destroy_window(mlx->mlx, mlx->window);
+// 	if (mlx->image != NULL)
+// 		ft_del_image(mlx, mlx->image);
+// 	// memdel 
+// 	return (NULL);	
+// }
+
+static void	malloc_error(void)
 {
-	if (image != NULL)
+	perror("Malloc error\n");
+	exit(EXIT_FAILURE);
+}
+
+static void	data_init(t_fractal *fract)
+{
+	fract->escape_radius = 4; // 2ˆ2 (useful for rendering)
+	fract->iterations_nbr = 100;
+}
+
+static void	events_init(t_fractal *fract)
+{
+	// listening to the keys: KeyPress & KeyPressMask
+	mlx_hook(fract->mlx_window, ON_KEYDOWN, 0, key_handler, fract);
+	// listening to the mouse: ButtonPress & ButtonPressMask 
+	mlx_hook(fract->mlx_window, ON_MOUSEUP, 0, mouse_handler, fract);
+	// clicking to close the window: DestroyNotify & StructureNotifyMask
+	mlx_hook(fract->mlx_window, ON_DESTROY, 0, close_handler, fract);
+}
+
+void	fractal_init(t_fractal *fract)
+{
+	fract->mlx_connection = mlx_init();
+	if (fract->mlx_connection == NULL)
+		malloc_error();
+	fract->mlx_window = mlx_new_window(fract->mlx_connection, WIDTH, HEIGHT, fract->name);
+	if (fract->mlx_window == NULL)
 	{
-		if (image->image != NULL)
-			mlx_destroy_image(mlx->mlx, image->image);
-		// memdel
+		mlx_destroy_display(fract->mlx_connection);
+		free(fract->mlx_connection);
+		malloc_error();
 	}
-	return (NULL);	
-}
-
-t_image	*ft_new_image(t_mlx *mlx)
-{
-	t_image	*image;
-	if ((image = malloc(sizeof(t_image))) == NULL)
-		return (NULL);
-	if ((image->image = mlx_new_image(mlx->mlx, WIDTH, HEIGHT)) == NULL)
-		return (ft_del_image(mlx, image));
-	image->ptr = mlx_get_data_addr(image->image, &image->bpp, &image->line_length, &image->endian);
-	image->bpp = 8; // ???
-	return (image);
-}
-
-t_mlx	*ft_deletemlx(t_mlx *mlx)
-{
-	if (mlx->window != NULL)
-		mlx_destroy_window(mlx->mlx, mlx->window);
-	if (mlx->image != NULL)
-		ft_del_image(mlx, mlx->image);
-	// memdel 
-	return (NULL);	
-}
-
-t_mlx	*ft_mlx_init(t_fractal *fractal)
-{
-	t_mlx	*mlx;
-	char	*title;
-	
-	if ((mlx = malloc(sizeof(t_mlx))) == NULL) 
-		return (NULL);
-	title = ft_strjoin("Fractol - ", fractal->name);
-	if ((mlx->mlx = mlx_init()) == NULL 
-			|| (mlx->window = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, title)) == NULL
-			|| (mlx->image = ft_new_image(mlx)) == NULL
-			|| (mlx->data = malloc(sizeof(t_pixel) * HEIGHT * WIDTH)) == NULL)
-		return (ft_deletemlx(mlx));
-	mlx->mouse.isdown = 0; // ??
-	mlx->fractal = fractal;
-	mlx->mouselock = 1 - fractal->mouse; // ??
-	mlx->color = ft_color_init(); // SEE HOW I WANT TO COLOR 
-	mlx->smooth = 1; // 
-	return (mlx);
+	fract->image.image_ptr = mlx_new_image(fract->mlx_connection, WIDTH, HEIGHT);
+	if (fract->image.image_ptr == NULL)
+	{
+		mlx_destroy_window(fract->mlx_connection, fract->mlx_window);
+		mlx_destroy_display(fract->mlx_connection);
+		free(fract->mlx_connection);
+		malloc_error();
+	}
+	fract->image.pixels_ptr = mlx_get_data_addr(fract->image.image_ptr, &fract->image.bpp, 
+													&fract->image.line_length, &fract->image.endian);
+	events_init(fract);
+	data_init(fract);
 }

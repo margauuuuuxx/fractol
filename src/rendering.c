@@ -6,75 +6,104 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/24 11:43:29 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 12:47:56 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
+#define BLACK         0x000000
+#define WHITE         0xFFFFFF
+#define BRIGHT_WHITE  0xF5F5F5
+
+#define RED           0xFF007F
+#define BRIGHT_RED    0xFF3366
+
+#define GREEN         0x00FF7F
+#define BRIGHT_GREEN  0x33FF66
+
+#define YELLOW        0xFFFF00
+#define BRIGHT_YELLOW 0xFFFF66
+
+#define BLUE          0x7F00FF
+#define BRIGHT_BLUE   0x6666FF
+
+#define MAGENTA       0xFF00FF
+#define BRIGHT_MAGENTA 0xFF66FF
+
+#define CYAN          0x00FFFF
+#define BRIGHT_CYAN   0x66FFFF
+
+
+
 /*
 This file has for objective to 
 */
 
-void	*ft_render_thread(void *args)
-{
-	t_thread	*t;
-	int			x;
-	int			y;
+/* 
+scaling the coordinates system to see something 
+	x-axis: [-2 ; 2]
+MANDELBROT:
+z = zˆ2 + c with:
+				z initially (0,0i)
+				c the actual point we want to check(a, bi)
+*/
 
-	t = (t_thread *)args; // c'etait deja un t_thread mais on typecast pcq dans la def de pthread_create les args sont des (void *)
-	y = HEIGHT / THREADS * t->id; // ??
-	while (y < HEIGHT / THREADS * (t->id + 1)) // why + 1 ?
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			*(t->mlx->data + y * WIDTH + x) = t->mlx->fractal->pixel(x, y, t->mlx->viewport, t->mlx); // ??
-			x++;
-		}
-		y++;
-	} 
-	return (NULL);
+static void	my_pixel_put(int x, int y, t_image *img, int color)
+{
+	int offset;
+
+	offset = (y * img->line_length) + (x * (img->bpp / 8));
+	*(unsigned int *)(img->pixels_ptr + offset) = color;
 }
 
-void	ft_draw(t_mlx *mlx)
+static void	handle_pixel(int x, int y, t_fractal *fract)
+{
+	t_complex	z;
+	t_complex	c;
+	double		r_temp;
+	double		i_temp;
+	int			i;
+	int			color;
+
+	z.r = 0;
+	z.i = 0;
+	c.r = map(x, -2, 2, 0, WIDTH); // starting from the left
+	c.i = map(y, +2, -2, 0, HEIGHT); // starting from the top
+	i = 0;
+	while (i < fract->iterations_nbr)
+	{
+		r_temp = z.r;
+		i_temp = z.i;
+		z.r = (z.r * z.r) - (z.i * z.i) + c.r;
+		z.i = (2 * r_temp * i_temp) + c.i;
+		if (((z.r * z.r) + (z.i * z.i)) > fract->escape_radius) // using the modulus of z: |z| = cˆ2 = √(aˆ2 + bˆ2) if |z| > 2, assume point escaped because of the domain restrictions with c the escape radius 
+		{
+			color = map(i, BLACK, WHITE, 0, fract->iterations_nbr);
+			my_pixel_put(x, y, &fract->image, color);
+			return;
+		}
+		i++;
+	}
+	my_pixel_put(x, y, &fract->image, WHITE);
+}
+
+void	fractal_render(t_fractal *fract)
 {
 	int	x;
 	int	y;
 
+	x = 0; // de base = -1 et incrementation ++x
 	y = 0;
 	while (y < HEIGHT)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			ft_set_pixel(mlx->image, x, y, ft_get_color(*(mlx->data + y * WIDTH + x), mlx));
+			handle_pixel(x, y, fract);	
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
-}
-
-void	ft_render(t_mlx *mlx)
-{
-	int			i;
-	t_render	*r;
-
-	i = 0;
-	r = mlx->render; // en gros je dis aue l'adresse de ce qui se trouve a mlx.render = r donc les deux sont =
-	while (i < THREADS)
-	{
-		r->args[i].id = i;
-		r->args[i].mlx = mlx;
-		pthread_create(r->threads + i, NULL, ft_render_thread, &(r->args[i])); // r.thread == pthread mis pq + i
-		i++;
-	}
-	i = 0;
-	while (i < THREADS)
-	{
-		pthread_join(r->threads[i], NULL);
-		i++;
-	}
-	ft_draw(mlx);
+	mlx_put_image_to_window(fract->mlx_connection, fract->mlx_window, fract->image.image_ptr, 0, 0);
 }

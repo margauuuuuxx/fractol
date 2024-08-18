@@ -1,0 +1,3 @@
+# FRACTOL
+
+This project involves creating a graphical application that generates and displays fractals, such as the Mandelbrot and Julia sets. The program allows for real-time interaction, enabling users to zoom, pan, and modify fractal parameters dynamically. It makes usage of complex numbers and iterative algorithms to render intricate patterns, while also handling graphical rendering and user inputs efficiently.
