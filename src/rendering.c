@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 12:47:56 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 15:44:29 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ This file has for objective to
 scaling the coordinates system to see something 
 	x-axis: [-2 ; 2]
 MANDELBROT:
-z = zˆ2 + c with:
+	z = zˆ2 + c with:
 				z initially (0,0i)
 				c the actual point we want to check(a, bi)
+JULIA:
+	./fractol julia <cst.r> <cst.i>
+	z = pixel point + cst
 */
 
 static void	my_pixel_put(int x, int y, t_image *img, int color)
@@ -55,6 +58,20 @@ static void	my_pixel_put(int x, int y, t_image *img, int color)
 
 	offset = (y * img->line_length) + (x * (img->bpp / 8));
 	*(unsigned int *)(img->pixels_ptr + offset) = color;
+}
+
+static void init_c(t_complex *z, t_complex *c, t_fractal *fract)
+{
+	if (ft_strncmp(fract->name, "julia", 5) == 0)
+	{
+		c->r = fract->julia_r;
+		c->i = fract->julia_i;
+	}
+	else 
+	{
+		c->r = z->r;
+		c->i = z->i;
+	}
 }
 
 static void	handle_pixel(int x, int y, t_fractal *fract)
@@ -66,11 +83,10 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	int			i;
 	int			color;
 
-	z.r = 0;
-	z.i = 0;
-	c.r = map(x, -2, 2, 0, WIDTH); // starting from the left
-	c.i = map(y, +2, -2, 0, HEIGHT); // starting from the top
 	i = 0;
+	z.r = (map(x, -2, 2, 0, WIDTH) * fract->zoom_factor) + fract->shift_x; // starting from the left
+	z.i = (map(y, +2, -2, 0, HEIGHT) * fract->zoom_factor) + fract->shift_y; // starting from the top
+	init_c(&z, &c, fract);
 	while (i < fract->iterations_nbr)
 	{
 		r_temp = z.r;

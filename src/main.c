@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 11:29:36 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 15:37:50 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@ parameters are passed in the COMMAND LINE to define what type of fractals will b
 option to have more parameters for rendering options
 if no parameters are entered --> display a list of available parameters and exit 
 */
-
-int	ft_name_check(char *name)
-{
-	if ((ft_strncmp((const char *)name, "mandelbrot", 11) == 0)
-			|| (ft_strncmp((const char *)name, "julia", 6) == 0))
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_die(char *reason)
-{
-	ft_printf(reason);
-	return (1);
-}
 
 int	hook_expose(t_mlx *mlx)
 {
@@ -77,6 +62,8 @@ int main(int argc, char **argv)
 			|| (argc == 4 && ft_strncmp(argv[1], "julia", 5) == 0))
 	{
 		fract.name = argv[1];
+		fract.julia_r = atoi_dbl(argv[2]);
+		fract.julia_i = atoi_dbl(argv[3]);
 		fractal_init(&fract);
 		fractal_render(&fract);
 		mlx_loop(fract.mlx_connection);
@@ -88,20 +75,3 @@ int main(int argc, char **argv)
 	}
 }
     
-    // log_escape_radius = log(escape_radius);
-
-    // // coulouring
-    // if (iterations < max_iterations)
-    //     ft_log(iterations, max_iterations, modulus);
-    // else
-        // colour = black
-    // modulus = 0;
-    // while (i < max_iterations)
-    // {
-    //     // |z| < escape radius ? --> magnitude of z = √(aˆ2 + bˆ2) with z = a + bi
-    //     modulus = sqrt(pow(z.real) + pow(z.imaginary));
-    //     if (modulus < escape_radius)
-    //         // colour of the pixel = black
-    //     else
-    //         // color depends on the number of iterations needed to go to infinity 
-    // }

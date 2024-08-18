@@ -6,39 +6,11 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 12:00:58 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 15:33:56 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
-
-void	ft_put_pixel(t_fractal *fractal, int x, int y, int color)
-{
-	// int	**dest;
-	// (void)color;
-	// (void)y;
-	// (void)x;
-	
-	// dest = (int **)malloc((SIZE * WIDTH) * sizeof(int *));
-	// if (!dest)
-	// {
-	// 	return ;
-	// }
-	// *dest = fractal->ptr_to_image; // for the row & column offset
-	
-	// dest[0] = &color;
-
-	char	*dest;
-	
-	dest = NULL;
-	if (!(x < 0 || x > WIDTH) || !(y < 0 || y > SIZE))
-	{
-		//printf("fract adress ; %p\n fract line_lenght %d\n bpp %d\n", fractal->address, fractal->line_length, fractal->bpp);
-		
-		dest = fractal->address + (y * fractal->line_length + x * (fractal->bpp / 8)); 
-		*(unsigned int *)dest = color;
-	}
-}
 
 double	generate_random_c(void)
 {
@@ -57,5 +29,52 @@ double	map(double unscaled_nbr, double new_min, double new_max, double old_min, 
 	return (new_max - new_min) * (unscaled_nbr - old_min) / (old_max - old_min) + new_min;	
 }
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
 
+	i = 0;
+	while ((s1[i] || s2[i]) && i < n)
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}
 
+// int	ft_isdigit(int c)
+// {
+// 	if (c >= 48 && c <= 57)
+// 		return (1);
+// 	else
+// 		return (0);
+// }
+
+double atoi_dbl(char *str)
+{
+	long	integer_part;
+	double	fractional_part;
+	int		s;
+	double	pow;
+
+	integer_part = 0;
+	fractional_part = 0;
+	s = 1;
+	pow = 1;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	while (*str == '+' || *str == '-')
+		if (*str++ == '-')
+			s *= -1;
+	while (*str != '.' && *str)
+		integer_part = (integer_part * 10) + (*str++ - 48);
+	if (*str == '.')
+		++s;
+	while (*str)
+	{
+		pow /= 10;
+		fractional_part = fractional_part + (*str++ - 48) * pow;
+	}
+	return ((integer_part + fractional_part) * s);
+}

@@ -6,11 +6,19 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 14:01:20 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 15:53:29 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
+
+# define KEY_PRESS 2
+# define KEY_RELEASE 3
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
+# define MOUSE_MOVE 6 // MotionNotify
+# define REDRAW 12 // ON_EXPOSE
+# define CLOSE_WINDOW 17 // clicking on the x of the window 
 
 /*
 Key objectives:
@@ -18,27 +26,6 @@ Key objectives:
 	2) Listening events ;
 	3) Hooks data
 */
-
-// t_image	*ft_del_image(t_mlx *mlx, t_image *image)
-// {
-// 	if (image != NULL)
-// 	{
-// 		if (image->image != NULL)
-// 			mlx_destroy_image(mlx->mlx, image->image);
-// 		// memdel
-// 	}
-// 	return (NULL);	
-// }
-
-// t_mlx	*ft_deletemlx(t_mlx *mlx)
-// {
-// 	if (mlx->window != NULL)
-// 		mlx_destroy_window(mlx->mlx, mlx->window);
-// 	if (mlx->image != NULL)
-// 		ft_del_image(mlx, mlx->image);
-// 	// memdel 
-// 	return (NULL);	
-// }
 
 static void	malloc_error(void)
 {
@@ -50,16 +37,22 @@ static void	data_init(t_fractal *fract)
 {
 	fract->escape_radius = 4; // 2ˆ2 (useful for rendering)
 	fract->iterations_nbr = 100;
+	fract->shift_x = 0;
+	fract->shift_y = 0;
+	fract->zoom_factor = 1;
 }
 
 static void	events_init(t_fractal *fract)
 {
 	// listening to the keys: KeyPress & KeyPressMask
-	mlx_hook(fract->mlx_window, ON_KEYDOWN, 0, key_handler, fract);
+	mlx_hook(fract->mlx_window, KEY_PRESS, 0, key_handler, fract);
 	// listening to the mouse: ButtonPress & ButtonPressMask 
-	mlx_hook(fract->mlx_window, ON_MOUSEUP, 0, mouse_handler, fract);
+	mlx_hook(fract->mlx_window, SCROLL_UP, 0, mouse_handler, fract);
+	//mlx_hook(fract->mlx_window, SCROLL_DOWN, 0, mouse_handler, fract);
 	// clicking to close the window: DestroyNotify & StructureNotifyMask
-	mlx_hook(fract->mlx_window, ON_DESTROY, 0, close_handler, fract);
+	mlx_hook(fract->mlx_window, CLOSE_WINDOW, 0, close_handler, fract);
+	//
+	mlx_hook(fract->mlx_window, MOUSE_MOVE, 0, track_julia, fract);
 }
 
 void	fractal_init(t_fractal *fract)

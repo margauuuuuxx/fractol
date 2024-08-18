@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:29:12 by marlonco          #+#    #+#             */
-/*   Updated: 2024/06/22 15:19:35 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/18 14:58:42 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 This file has for objectives to define the different hooks callback functions
 */
 
-/*
-R = reset the fractal
-C = change the color scheme
-J = set the constant of Julia to random valus
-P = increase the max iterations
-M = reduce the max iterations
-*/
 int key_hook(int key_code, t_mlx *mlx)
 {
 	double	w;
