@@ -32,7 +32,7 @@ int close_handler(t_fractal *fract) //how to do it for when i go to the X with m
 {
    mlx_destroy_image(fract->mlx_connection, fract->image.image_ptr);
    mlx_destroy_window(fract->mlx_connection, fract->mlx_window);
-   mlx_destroy_display(fract->mlx_connection); // HERE
+//    mlx_destroy_display(fract->mlx_connection); // HERE
    free(fract->mlx_connection);
    exit(EXIT_SUCCESS);
 }
@@ -61,6 +61,8 @@ int key_handler(int keysym, t_fractal *fract)
 // mouse scroll: int (*f)(int button, int x, int y, void *param)
 int mouse_handler(int button, int x, int y, t_fractal *fract)
 {
+    (void)x;
+    (void)y;
     if (button == SCROLL_DOWN)
     {
         fract->zoom_factor *= 0.95;

@@ -1,5 +1,2 @@
-Makefile
-Import libft
-restrictions on x and y values for the window dimensions
-what for z if julia ?
-color options for the user 
+trop d'arguments pour scale 
+quid destroy display

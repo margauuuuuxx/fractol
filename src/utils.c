@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 15:33:56 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:56:38 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-double	generate_random_c(void)
-{
-	return(((double)rand() / RAND_MAX) * 3.0 - 1.5);
-}
+// double	generate_random_c(void)
+// {
+// 	return(((double)rand() / RAND_MAX) * 3.0 - 1.5);
+// }
 
-void	set_random_julia(double *cx, double *cy)
-{
-	*cx = generate_random_c();
-	*cy = generate_random_c();
-}
+// void	set_random_julia(double *cx, double *cy)
+// {
+// 	*cx = generate_random_c();
+// 	*cy = generate_random_c();
+// }
 
 // linear interpolation
 double	map(double unscaled_nbr, double new_min, double new_max, double old_min, double old_max)
@@ -41,6 +41,20 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (fd < 0 || s == NULL)
+		return ;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
 
 // int	ft_isdigit(int c)
@@ -63,7 +77,7 @@ double atoi_dbl(char *str)
 	s = 1;
 	pow = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
+		++str;
 	while (*str == '+' || *str == '-')
 		if (*str++ == '-')
 			s *= -1;

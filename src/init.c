@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 15:53:29 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:53:23 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	fractal_init(t_fractal *fract)
 	fract->mlx_window = mlx_new_window(fract->mlx_connection, WIDTH, HEIGHT, fract->name);
 	if (fract->mlx_window == NULL)
 	{
-		mlx_destroy_display(fract->mlx_connection);
+		// mlx_destroy_display(fract->mlx_connection);
+		mlx_destroy_window(fract->mlx_connection, fract->mlx_window);
 		free(fract->mlx_connection);
 		malloc_error();
 	}
@@ -71,7 +72,7 @@ void	fractal_init(t_fractal *fract)
 	if (fract->image.image_ptr == NULL)
 	{
 		mlx_destroy_window(fract->mlx_connection, fract->mlx_window);
-		mlx_destroy_display(fract->mlx_connection);
+		// mlx_destroy_display(fract->mlx_connection);
 		free(fract->mlx_connection);
 		malloc_error();
 	}
