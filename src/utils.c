@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/19 14:56:38 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:57:07 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,22 @@ double atoi_dbl(char *str)
 		fractional_part = fractional_part + (*str++ - 48) * pow;
 	}
 	return ((integer_part + fractional_part) * s);
+}
+
+t_complex	sum_complex(t_complex z1, t_complex z2)
+{
+	t_complex	result;
+	
+	result.r = z1.i + z2.i;
+	result.i = z1.i + z2.i;
+	return (result);
+}
+
+t_complex	square_complex(t_complex z)
+{
+	t_complex	result;
+
+	result.r = (z.r * z.r) - (z.i * z.i);
+	result.i = 2 * z.r * z.i;
+	return (result);
 }

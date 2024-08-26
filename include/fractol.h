@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/19 14:48:01 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:09:28 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,7 @@ double		map(double unscaled_nbr, double new_min, double new_max,
 int			ft_strncmp(const char *s, const char *s2, size_t n);
 void		ft_putstr_fd(char *s, int fd);
 double		atoi_dbl(char *str);
+t_complex	square_complex(t_complex z);
+t_complex	sum_complex(t_complex z1, t_complex z2);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/18 15:44:29 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:15:41 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	z.r = (map(x, -2, 2, 0, WIDTH) * fract->zoom_factor) + fract->shift_x; // starting from the left
 	z.i = (map(y, +2, -2, 0, HEIGHT) * fract->zoom_factor) + fract->shift_y; // starting from the top
 	init_c(&z, &c, fract);
-	while (i < fract->iterations_nbr)
+	while (i++ < fract->iterations_nbr)
 	{
 		r_temp = z.r;
 		i_temp = z.i;
@@ -99,7 +99,6 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 			my_pixel_put(x, y, &fract->image, color);
 			return;
 		}
-		i++;
 	}
 	my_pixel_put(x, y, &fract->image, WHITE);
 }

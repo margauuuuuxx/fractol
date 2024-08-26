@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2024/08/19 17:29:59 by marlonco         ###   ########.fr        #
+#    Updated: 2024/08/26 15:24:59 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,23 +75,29 @@ NAME    = fractol
 CC      = gcc
 CFLAGS  = -Werror -Wextra -Wall -g3
 
-# Architecture
-ARCH    := $(shell uname -m)
-ifeq ($(ARCH), arm64)
-    # For Mac Silicon (ARM architecture)
-    MLX_FLAGS = -L/opt/homebrew/opt/glfw/lib -lglfw -L$(MLX_PATH) -lmlx
-    INC       = -I./include -I/opt/homebrew/opt/glfw/include -I$(MLX_PATH)
-# else
-    # For Mac Intel (x86_64 architecture)
-    MLX_FLAGS = -L$(MLX_PATH) -lmlx -Lmlx
-    INC       = 	-I./include/\
-					-I$(MLX_PATH)
-endif
+# # Architecture
+# ARCH    := $(shell uname -m)
+# ifeq ($(ARCH), arm64)
+#     # For Mac Silicon (ARM architecture)
+#     MLX_FLAGS = -L/opt/homebrew/opt/glfw/lib -lglfw -L$(MLX_PATH) -lmlx
+#     INC       = -I./include -I/opt/homebrew/opt/glfw/include -I$(MLX_PATH)
+# # else
+#     # For Mac Intel (x86_64 architecture)
+#     MLX_FLAGS = -L$(MLX_PATH) -lmlx -Lmlx
+#     INC       = 	-I./include/\
+# 					-I$(MLX_PATH)
+# endif
 
 # Minilibx
 MLX_PATH   = minilibx/
 MLX_NAME   = libmlx.a
 MLX = $(MLX_PATH)$(MLX_NAME)
+
+# Include 
+INC = 			-I ./include/\
+				-I ./lib/libft/\
+				-I ./lib/printf/\
+				-I ./lib/minilibx/
 
 # Sources
 SRC_PATH = src/
@@ -119,7 +125,7 @@ $(MLX):
 
 $(NAME): $(OBJS)
 	@echo "Compiling fractol..."
-	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(MLX_FLAGS) -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(INC) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 	@echo "Fractol ready."
 
 clean:
