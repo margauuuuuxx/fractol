@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/19 14:53:23 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/28 19:10:31 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static void	data_init(t_fractal *fract)
 {
 	fract->escape_radius = 4; // 2ˆ2 (useful for rendering)
 	fract->iterations_nbr = 100;
-	fract->shift_x = 0;
-	fract->shift_y = 0;
-	fract->zoom_factor = 1;
+	fract->zoom_factor = 1.0;
+	fract->limit_x = 0.0;
+	fract->limit_y = 0.0;
 }
 
 static void	events_init(t_fractal *fract)

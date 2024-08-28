@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/26 16:15:41 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/28 19:07:20 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,20 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	t_complex	z;
 	t_complex	c;
 	double		r_temp;
-	double		i_temp;
 	int			i;
 	int			color;
+	double		ratio;
 
 	i = 0;
-	z.r = (map(x, -2, 2, 0, WIDTH) * fract->zoom_factor) + fract->shift_x; // starting from the left
-	z.i = (map(y, +2, -2, 0, HEIGHT) * fract->zoom_factor) + fract->shift_y; // starting from the top
+	ratio = (double)WIDTH/HEIGHT;
+	z.r = (map(x, -2 * ratio, 2 * ratio, 0, WIDTH) * fract->zoom_factor) + fract->limit_x; // starting from the left
+	z.i = (map(y, +2, -2, 0, HEIGHT) * fract->zoom_factor) + fract->limit_y; // starting from the top
 	init_c(&z, &c, fract);
 	while (i++ < fract->iterations_nbr)
 	{
-		r_temp = z.r;
-		i_temp = z.i;
-		z.r = (z.r * z.r) - (z.i * z.i) + c.r;
-		z.i = (2 * r_temp * i_temp) + c.i;
+		r_temp = (z.r * z.r) - (z.i * z.i) + c.r;
+		z.i = (2 * z.r * z.i) + c.i;
+		z.r = r_temp;
 		if (((z.r * z.r) + (z.i * z.i)) > fract->escape_radius) // using the modulus of z: |z| = cˆ2 = √(aˆ2 + bˆ2) if |z| > 2, assume point escaped because of the domain restrictions with c the escape radius 
 		{
 			color = map(i, BLACK, WHITE, 0, fract->iterations_nbr);

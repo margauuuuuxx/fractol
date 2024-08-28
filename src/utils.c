@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/26 15:57:07 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:26:39 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,19 @@ double atoi_dbl(char *str)
 	s = 1;
 	pow = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
-		++str;
-	while (*str == '+' || *str == '-')
+		str++;
+	if (*str == '+' || *str == '-')
 		if (*str++ == '-')
 			s *= -1;
-	while (*str != '.' && *str)
+	while (*str != '.' && *str != ',' && *str)
 		integer_part = (integer_part * 10) + (*str++ - 48);
-	if (*str == '.')
-		++s;
+	if (*str == '.' || *str == ',')
+		str++;
 	while (*str)
 	{
 		pow /= 10;
-		fractional_part = fractional_part + (*str++ - 48) * pow;
+		fractional_part = fractional_part + (*str - 48) * pow;
+		str++;
 	}
 	return ((integer_part + fractional_part) * s);
 }

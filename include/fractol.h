@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/26 16:09:28 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/28 19:10:44 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@
 # include <stdio.h>
 # include <string.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+//# define WIDTH 1920
+//# define HEIGHT 1080
+
+# define WIDTH 800
+# define HEIGHT 400
 
 // complex number struct
 typedef struct s_complex
@@ -52,11 +55,11 @@ typedef struct s_fractal
 	char	*name;
 	double	escape_radius;
 	int		iterations_nbr;
-	double	shift_x;
-	double	shift_y;
 	double	zoom_factor;
 	double	julia_r;
 	double	julia_i;
+	double	limit_x;
+	double	limit_y;
 }			t_fractal;
 
 // events
