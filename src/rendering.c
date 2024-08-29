@@ -6,42 +6,36 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/28 19:07:20 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:45:27 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-#define BLACK         0x000000
-#define WHITE         0xFFFFFF
-#define BRIGHT_WHITE  0xF5F5F5
+#define BLACK 0x000000
+#define WHITE 0xFFFFFF
+#define BRIGHT_WHITE 0xF5F5F5
 
-#define RED           0xFF007F
-#define BRIGHT_RED    0xFF3366
+#define RED 0xFF007F
+#define BRIGHT_RED 0xFF3366
 
-#define GREEN         0x00FF7F
-#define BRIGHT_GREEN  0x33FF66
+#define GREEN 0x00FF7F
+#define BRIGHT_GREEN 0x33FF66
 
-#define YELLOW        0xFFFF00
+#define YELLOW 0xFFFF00
 #define BRIGHT_YELLOW 0xFFFF66
 
-#define BLUE          0x7F00FF
-#define BRIGHT_BLUE   0x6666FF
+#define BLUE 0x7F00FF
+#define BRIGHT_BLUE 0x6666FF
 
-#define MAGENTA       0xFF00FF
+#define MAGENTA 0xFF00FF
 #define BRIGHT_MAGENTA 0xFF66FF
 
-#define CYAN          0x00FFFF
-#define BRIGHT_CYAN   0x66FFFF
-
-
+#define CYAN 0x00FFFF
+#define BRIGHT_CYAN 0x66FFFF
 
 /*
-This file has for objective to 
-*/
-
-/* 
-scaling the coordinates system to see something 
+scaling the coordinates system to see something
 	x-axis: [-2 ; 2]
 MANDELBROT:
 	z = zˆ2 + c with:
@@ -52,28 +46,36 @@ JULIA:
 	z = pixel point + cst
 */
 
+double	map(double unscaled_nbr, double new_min, double new_max, double old_max)
+{
+	return ((new_max - new_min) * (unscaled_nbr - 0) / (old_max - 0) + new_min);
+}
+
 static void	my_pixel_put(int x, int y, t_image *img, int color)
 {
-	int offset;
+	int	offset;
 
 	offset = (y * img->line_length) + (x * (img->bpp / 8));
 	*(unsigned int *)(img->pixels_ptr + offset) = color;
 }
 
-static void init_c(t_complex *z, t_complex *c, t_fractal *fract)
+static void	init_c(t_complex *z, t_complex *c, t_fractal *fract)
 {
 	if (ft_strncmp(fract->name, "julia", 5) == 0)
 	{
 		c->r = fract->julia_r;
 		c->i = fract->julia_i;
 	}
-	else 
+	else
 	{
 		c->r = z->r;
 		c->i = z->i;
 	}
 }
 
+/* using the modulus of z: |z| = cˆ2 = √(aˆ2 + bˆ2) if |z| > 2,
+assume point escaped because of the domain restrictions
+with c the escape radius */
 static void	handle_pixel(int x, int y, t_fractal *fract)
 {
 	t_complex	z;
@@ -81,23 +83,22 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	double		r_temp;
 	int			i;
 	int			color;
-	double		ratio;
 
 	i = 0;
-	ratio = (double)WIDTH/HEIGHT;
-	z.r = (map(x, -2 * ratio, 2 * ratio, 0, WIDTH) * fract->zoom_factor) + fract->limit_x; // starting from the left
-	z.i = (map(y, +2, -2, 0, HEIGHT) * fract->zoom_factor) + fract->limit_y; // starting from the top
+	z.r = (map(x, -2 * ((double)WIDTH / HEIGHT), 2 * ((double)WIDTH / HEIGHT),
+				WIDTH) * fract->zoom_factor) + fract->limit_x;
+	z.i = (map(y, +2, -2, HEIGHT) * fract->zoom_factor) + fract->limit_y;
 	init_c(&z, &c, fract);
 	while (i++ < fract->iterations_nbr)
 	{
 		r_temp = (z.r * z.r) - (z.i * z.i) + c.r;
 		z.i = (2 * z.r * z.i) + c.i;
 		z.r = r_temp;
-		if (((z.r * z.r) + (z.i * z.i)) > fract->escape_radius) // using the modulus of z: |z| = cˆ2 = √(aˆ2 + bˆ2) if |z| > 2, assume point escaped because of the domain restrictions with c the escape radius 
+		if (((z.r * z.r) + (z.i * z.i)) > fract->escape_radius)
 		{
-			color = map(i, BLACK, WHITE, 0, fract->iterations_nbr);
+			color = map(i, BLACK, WHITE, fract->iterations_nbr);
 			my_pixel_put(x, y, &fract->image, color);
-			return;
+			return ;
 		}
 	}
 	my_pixel_put(x, y, &fract->image, WHITE);
@@ -108,17 +109,18 @@ void	fractal_render(t_fractal *fract)
 	int	x;
 	int	y;
 
-	x = 0; // de base = -1 et incrementation ++x
+	x = 0;
 	y = 0;
 	while (y < HEIGHT)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			handle_pixel(x, y, fract);	
+			handle_pixel(x, y, fract);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(fract->mlx_connection, fract->mlx_window, fract->image.image_ptr, 0, 0);
+	mlx_put_image_to_window(fract->mlx_connection, fract->mlx_window,
+		fract->image.image_ptr, 0, 0);
 }

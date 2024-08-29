@@ -6,22 +6,14 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/28 18:41:02 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:49:54 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-#define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" or \n\t\"./fractol julia <value_1> <value_2>\"\n"
-
-/*
-This function has for objetive to render fractals for the Julia and Mandelbrot sets
-parameters are passed in the COMMAND LINE to define what type of fractals will be displayed
-option to have more parameters for rendering options
-if no parameters are entered --> display a list of available parameters and exit
-*/
-
-#include <stdio.h>
+#define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" \
+or \n\t\"./fractol julia <value_1> <value_2>\"\n"
 
 int	main(int argc, char **argv)
 {
@@ -35,7 +27,6 @@ int	main(int argc, char **argv)
 		{
 			fract.julia_r = atoi_dbl(argv[2]);
 			fract.julia_i = atoi_dbl(argv[3]);
-			printf("%f %f", fract.julia_r, fract.julia_i);
 		}
 		fractal_init(&fract);
 		fractal_render(&fract);

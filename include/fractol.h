@@ -6,24 +6,19 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/28 19:10:44 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:45:46 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-// # include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-// # include <errno.h>
 # include "../minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
-
-//# define WIDTH 1920
-//# define HEIGHT 1080
+# include <unistd.h>
 
 # define WIDTH 800
 # define HEIGHT 400
@@ -39,7 +34,7 @@ typedef struct s_complex
 typedef struct s_image
 {
 	void	*image_ptr;
-	char *pixels_ptr; // pointing to 1 byte
+	char	*pixels_ptr;
 	int		bpp;
 	int		line_length;
 	// number of bytes per row of the image (also called stride)
@@ -49,8 +44,8 @@ typedef struct s_image
 // fractal struct
 typedef struct s_fractal
 {
-	void *mlx_connection; // mlx_init()
-	void *mlx_window;     // mlx_new_window()
+	void	*mlx_connection;
+	void	*mlx_window;
 	t_image	image;
 	char	*name;
 	double	escape_radius;
@@ -72,11 +67,11 @@ int			track_julia(int x, int y, t_fractal *fract);
 void		fractal_init(t_fractal *fract);
 
 // rendering
+double		map(double unscaled_nbr, double new_min,
+				double new_max,	double old_max);
 void		fractal_render(t_fractal *fract);
 
 // utils
-double		map(double unscaled_nbr, double new_min, double new_max,
-				double old_min, double old_max);
 int			ft_strncmp(const char *s, const char *s2, size_t n);
 void		ft_putstr_fd(char *s, int fd);
 double		atoi_dbl(char *str);

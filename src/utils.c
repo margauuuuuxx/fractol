@@ -6,28 +6,11 @@
 /*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/28 18:26:39 by marlonco         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:46:10 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
-
-// double	generate_random_c(void)
-// {
-// 	return(((double)rand() / RAND_MAX) * 3.0 - 1.5);
-// }
-
-// void	set_random_julia(double *cx, double *cy)
-// {
-// 	*cx = generate_random_c();
-// 	*cy = generate_random_c();
-// }
-
-// linear interpolation
-double	map(double unscaled_nbr, double new_min, double new_max, double old_min, double old_max)
-{
-	return (new_max - new_min) * (unscaled_nbr - old_min) / (old_max - old_min) + new_min;	
-}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -57,15 +40,7 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-// int	ft_isdigit(int c)
-// {
-// 	if (c >= 48 && c <= 57)
-// 		return (1);
-// 	else
-// 		return (0);
-// }
-
-double atoi_dbl(char *str)
+double	atoi_dbl(char *str)
 {
 	long	integer_part;
 	double	fractional_part;
@@ -97,7 +72,7 @@ double atoi_dbl(char *str)
 t_complex	sum_complex(t_complex z1, t_complex z2)
 {
 	t_complex	result;
-	
+
 	result.r = z1.i + z2.i;
 	result.i = z1.i + z2.i;
 	return (result);
