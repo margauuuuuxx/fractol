@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 20:51:54 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:31:32 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,24 @@ static void	init_c(t_complex *z, t_complex *c, t_fractal *fract)
 	}
 }
 
+static void	iterate_fractal(t_complex *z, t_complex *c, const char *name)
+{
+	double	r_temp;
+	
+	if (ft_strncmp(name, "burning", 7) == 0)
+	{
+		r_temp = (z->r * z->r) - (z->i * z->i) + c->r;
+		z->i = 2 * fabs(z->r) * fabs(z->i) + c->i;
+		z->r = r_temp;
+	}
+	else 
+	{
+		r_temp = (z->r * z->r) - (z->i * z->i) + c->r;
+		z->i = (2 * z->r * z->i) + c->i;
+		z->r = r_temp;
+	}
+}
+
 /* using the modulus of z: |z| = cˆ2 = √(aˆ2 + bˆ2) if |z| > 2,
 assume point escaped because of the domain restrictions
 with c the escape radius */
@@ -69,7 +87,6 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 {
 	t_complex	z;
 	t_complex	c;
-	double		r_temp;
 	int			i;
 
 	i = 0;
@@ -78,12 +95,7 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	init_c(&z, &c, fract);
 	while (i++ < fract->iterations_nbr
 			&& (z.r * z.r + z.i * z.i) <= fract->escape_radius)
-	{
-		r_temp = (z.r * z.r) - (z.i * z.i) + c.r;
-		z.i = (2 * z.r * z.i) + c.i;
-		z.r = r_temp;
-		
-	}
+		iterate_fractal(&z, &c, fract->name);
 	my_pixel_put(x, y, &fract->image, (i < fract->iterations_nbr) ? calculate_color(i, fract->iterations_nbr) : WHITE);
 }
 

@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:14:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/29 14:49:54 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:26:39 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
 #define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" \
-or \n\t\"./fractol julia <value_1> <value_2>\"\n"
+or \n\t\"./fractol julia <value_1> <value_2>\" or \
+\n\t\"./fractol burning\"\n"
 
 int	main(int argc, char **argv)
 {
 	t_fractal	fract;
 
-	if ((argc == 2 && ft_strncmp(argv[1], "mandelbrot", 10) == 0) || (argc == 4
-			&& ft_strncmp(argv[1], "julia", 5) == 0))
+	if ((argc == 2 && ft_strncmp(argv[1], "mandelbrot", 10) == 0) 
+		|| (argc == 2 && ft_strncmp(argv[1], "burning", 7) == 0)
+		|| (argc == 4 && ft_strncmp(argv[1], "julia", 5) == 0))
 	{
 		fract.name = argv[1];
 		if (ft_strncmp(fract.name, "julia", 5) == 0)
