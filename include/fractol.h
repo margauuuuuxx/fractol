@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 20:52:29 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:14:48 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct s_fractal
 int			close_handler(t_fractal *fract);
 int			key_handler(int keysym, t_fractal *fract);
 int			mouse_handler(int button, int x, int y, t_fractal *fract);
-int			track_julia(int x, int y, t_fractal *fract);
 
 // init
 void		fractal_init(t_fractal *fract);

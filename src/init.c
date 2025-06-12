@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 20:40:38 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:14:41 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	events_init(t_fractal *fract)
 	mlx_hook(fract->mlx_window, KEY_PRESS, 0, key_handler, fract);
 	mlx_hook(fract->mlx_window, SCROLL_UP, 0, mouse_handler, fract);
 	mlx_hook(fract->mlx_window, CLOSE_WINDOW, 0, close_handler, fract);
-	mlx_hook(fract->mlx_window, MOUSE_MOVE, 0, track_julia, fract);
 }
 
 void	fractal_init(t_fractal *fract)

@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 19:13:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 19:16:48 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:05:05 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 #define DOWN 125
 #define LEFT 123
 #define RIGHT 124
+#define PLUS_MB 24 
+#define MINUS_MB 27
 #define PLUS 69 // on the numeric keypad
 #define MINUS 78
 
