@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:14:41 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:43:23 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	data_init(t_fractal *fract)
 	zoom_init(&fract->zoom, fract->aspect);
 	fract->limit_x = -WIDTH / 2.0 * fract->zoom.zoom_x;
 	fract->limit_y = -HEIGHT / 2.0 * fract->zoom.zoom_y;
+	fract->color_scheme = 0;
 }
 
 static void	events_init(t_fractal *fract)

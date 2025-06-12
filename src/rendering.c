@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:31:32 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:44:03 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,6 @@ JULIA:
 	./fractol julia <cst.r> <cst.i>
 	z = pixel point + cst
 */
-
-static double	calculate_color(int i, int max)
-{
-	double	t;
-	int		r;
-	int		g;
-	int		b;
-	
-	if (i == max)
-		return (BLACK);
-	t = (double)i / max;
-	r = (int)(9 * (1 - t) * t * t * t * 255);
-	g = (int)(15 * (1 -t) * (1 - t) * t * t * 255);
-	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-	return ((r << 16) | (g << 8) | b);
-}
 
 static void	my_pixel_put(int x, int y, t_image *img, int color)
 {
@@ -96,7 +80,7 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	while (i++ < fract->iterations_nbr
 			&& (z.r * z.r + z.i * z.i) <= fract->escape_radius)
 		iterate_fractal(&z, &c, fract->name);
-	my_pixel_put(x, y, &fract->image, (i < fract->iterations_nbr) ? calculate_color(i, fract->iterations_nbr) : WHITE);
+	my_pixel_put(x, y, &fract->image, (i < fract->iterations_nbr) ? calculate_color(i, fract->iterations_nbr, fract->color_scheme) : WHITE);
 }
 
 void	fractal_render(t_fractal *fract)

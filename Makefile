@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2025/06/12 20:41:36 by marlonco         ###   ########.fr        #
+#    Updated: 2025/06/12 21:45:55 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ INC = 			-I ./include/\
 
 # Sources
 SRC_PATH = src/
-SRC      = events.c init.c main.c rendering.c utils.c
+SRC      = color.c events.c init.c main.c rendering.c utils.c
 SRCS     = $(addprefix $(SRC_PATH), $(SRC))
 
 # Objects

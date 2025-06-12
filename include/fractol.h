@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:14:48 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:43:06 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ typedef struct s_fractal
 	double	limit_x;
 	double	limit_y;
 	double	aspect;
+	int		color_scheme;
 	t_zoom	zoom;
 }			t_fractal;
+
+// color
+int			calculate_color(int i, int max, int scheme);
 
 // events
 int			close_handler(t_fractal *fract);

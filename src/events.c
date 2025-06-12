@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 14:34:26 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:15:01 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:45:00 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	key_handler(int keysym, t_fractal *fract)
 		zoom(fract, WIDTH / 2, HEIGHT / 2, 1);
 	else if (keysym == MINUS || keysym == MINUS_MB)
 		zoom(fract, WIDTH / 2, HEIGHT / 2, 0);
+	else if (keysym == C)
+		fract->color_scheme = (fract->color_scheme + 1) % 3;
 	fractal_render(fract);
 	return (0);
 }
