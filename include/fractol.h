@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 20:38:28 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:52:29 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ typedef struct s_image
 	void	*image_ptr;
 	char	*pixels_ptr;
 	int		bpp;
-	int		line_length;
-	// number of bytes per row of the image (also called stride)
+	int		line_length; // number of bytes per row of the image (also called stride)
 	int		endian;
 }			t_image;
 

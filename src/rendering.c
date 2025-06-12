@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 20:38:36 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:51:54 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,18 @@ JULIA:
 
 static double	calculate_color(int i, int max)
 {
-	return ((int)(255.0 * i / max));
+	double	t;
+	int		r;
+	int		g;
+	int		b;
+	
+	if (i == max)
+		return (BLACK);
+	t = (double)i / max;
+	r = (int)(9 * (1 - t) * t * t * t * 255);
+	g = (int)(15 * (1 -t) * (1 - t) * t * t * 255);
+	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+	return ((r << 16) | (g << 8) | b);
 }
 
 static void	my_pixel_put(int x, int y, t_image *img, int color)
