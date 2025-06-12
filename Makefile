@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2025/06/12 19:07:02 by marlonco         ###   ########.fr        #
+#    Updated: 2025/06/12 20:41:36 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,11 +64,6 @@ $(OBJ_PATH):
 $(MLX):
 	@echo "Making MiniLibX..."
 	@make -sC $(MLX_PATH) 2>/dev/null
-
-# $(NAME): $(OBJS)
-# 	@echo "Compiling fractol..."
-# 	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(INC) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-# 	@echo "Fractol ready."
 
 $(NAME): $(OBJS)
 	@echo "Compiling fractol..."

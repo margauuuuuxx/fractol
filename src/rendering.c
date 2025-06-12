@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 19:16:55 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:38:36 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ JULIA:
 	z = pixel point + cst
 */
 
-double	map(double unscaled_nbr, double new_min, double new_max, double old_max)
+static double	calculate_color(int i, int max)
 {
-	return ((new_max - new_min) * (unscaled_nbr - 0) / (old_max - 0) + new_min);
+	return ((int)(255.0 * i / max));
 }
 
 static void	my_pixel_put(int x, int y, t_image *img, int color)
@@ -60,26 +60,20 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	t_complex	c;
 	double		r_temp;
 	int			i;
-	int			color;
 
 	i = 0;
-	z.r = (map(x, -2 * ((double)WIDTH / HEIGHT), 2 * ((double)WIDTH / HEIGHT),
-				WIDTH) * fract->zoom_factor) + fract->limit_x;
-	z.i = (map(y, +2, -2, HEIGHT) * fract->zoom_factor) + fract->limit_y;
+	z.r = x * fract->zoom.zoom_x + fract->limit_x;
+	z.i = y * fract->zoom.zoom_y + fract->limit_y;
 	init_c(&z, &c, fract);
-	while (i++ < fract->iterations_nbr)
+	while (i++ < fract->iterations_nbr
+			&& (z.r * z.r + z.i * z.i) <= fract->escape_radius)
 	{
 		r_temp = (z.r * z.r) - (z.i * z.i) + c.r;
 		z.i = (2 * z.r * z.i) + c.i;
 		z.r = r_temp;
-		if (((z.r * z.r) + (z.i * z.i)) > fract->escape_radius)
-		{
-			color = map(i, BLACK, WHITE, fract->iterations_nbr);
-			my_pixel_put(x, y, &fract->image, color);
-			return ;
-		}
+		
 	}
-	my_pixel_put(x, y, &fract->image, WHITE);
+	my_pixel_put(x, y, &fract->image, (i < fract->iterations_nbr) ? calculate_color(i, fract->iterations_nbr) : WHITE);
 }
 
 void	fractal_render(t_fractal *fract)

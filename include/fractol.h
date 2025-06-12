@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 19:21:49 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:38:28 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ typedef struct s_image
 	int		endian;
 }			t_image;
 
+typedef struct s_zoom
+{
+	double	zoom_factor;
+	double	zoom_x;
+	double	zoom_y;
+}	t_zoom;
+
 // fractal struct
 typedef struct s_fractal
 {
@@ -41,11 +48,12 @@ typedef struct s_fractal
 	char	*name;
 	double	escape_radius;
 	int		iterations_nbr;
-	double	zoom_factor;
 	double	julia_r;
 	double	julia_i;
 	double	limit_x;
 	double	limit_y;
+	double	aspect;
+	t_zoom	zoom;
 }			t_fractal;
 
 // events
@@ -58,8 +66,6 @@ int			track_julia(int x, int y, t_fractal *fract);
 void		fractal_init(t_fractal *fract);
 
 // rendering
-double		map(double unscaled_nbr, double new_min,
-				double new_max,	double old_max);
 void		fractal_render(t_fractal *fract);
 
 // utils
@@ -68,6 +74,3 @@ void		ft_putstr_fd(char *s, int fd);
 double		atoi_dbl(char *str);
 t_complex	square_complex(t_complex z);
 t_complex	sum_complex(t_complex z1, t_complex z2);
-
-//utils2
-void    error_exit(char **str);

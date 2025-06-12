@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 19:16:28 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:40:38 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,15 @@ Key objectives:
 
 static void	malloc_error(void)
 {
-	error_exit("Malloc Failure\n");
+	perror("Malloc Failure\n");
+	exit(EXIT_FAILURE);
+}
+
+static void	zoom_init(t_zoom *zoom, double aspect)
+{
+	zoom->zoom_factor = 1.0;
+	zoom->zoom_x = (2.0 * aspect * zoom->zoom_factor) / WIDTH;
+	zoom->zoom_y = (-2.0 * zoom->zoom_factor) / HEIGHT;
 }
 
 // escape radius = 4 = 2^2 --> useful for rendering
@@ -29,9 +37,10 @@ static void	data_init(t_fractal *fract)
 {
 	fract->escape_radius = 4;
 	fract->iterations_nbr = 100;
-	fract->zoom_factor = 1.0;
-	fract->limit_x = 0.0;
-	fract->limit_y = 0.0;
+	fract->aspect = (double)WIDTH / (double)HEIGHT;
+	zoom_init(&fract->zoom, fract->aspect);
+	fract->limit_x = -WIDTH / 2.0 * fract->zoom.zoom_x;
+	fract->limit_y = -HEIGHT / 2.0 * fract->zoom.zoom_y;
 }
 
 static void	events_init(t_fractal *fract)
