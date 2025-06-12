@@ -20,20 +20,20 @@ KEYCODE VS KEYSYM:
         independent of the keyboard layout/hardware specifics
 */
 
-// 1 = scroll up 
+// 1 = scroll up
 void	zoom(t_fractal *fract, int x, int y, int flag)
 {
 	if (flag == 1)
 	{
 		fract->limit_x += x * fract->zoom.zoom_x * (1 - 1 / 1.3);
-		fract->limit_y += y *fract->zoom.zoom_y * (1 - 1 / 1.3);
+		fract->limit_y += y * fract->zoom.zoom_y * (1 - 1 / 1.3);
 		fract->zoom.zoom_x /= 1.3;
 		fract->zoom.zoom_y /= 1.3;
 	}
 	else
 	{
 		fract->limit_x -= x * fract->zoom.zoom_x * (1 - 1.0 / 1.3);
-		fract->limit_y -= y *fract->zoom.zoom_y * (1 - 1.0 / 1.3);
+		fract->limit_y -= y * fract->zoom.zoom_y * (1 - 1.0 / 1.3);
 		fract->zoom.zoom_x *= 1.3;
 		fract->zoom.zoom_y *= 1.3;
 	}

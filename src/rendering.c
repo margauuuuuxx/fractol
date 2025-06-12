@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:44:03 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 22:35:20 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ static void	init_c(t_complex *z, t_complex *c, t_fractal *fract)
 static void	iterate_fractal(t_complex *z, t_complex *c, const char *name)
 {
 	double	r_temp;
-	
+
 	if (ft_strncmp(name, "burning", 7) == 0)
 	{
 		r_temp = (z->r * z->r) - (z->i * z->i) + c->r;
 		z->i = 2 * fabs(z->r) * fabs(z->i) + c->i;
 		z->r = r_temp;
 	}
-	else 
+	else
 	{
 		r_temp = (z->r * z->r) - (z->i * z->i) + c->r;
 		z->i = (2 * z->r * z->i) + c->i;
@@ -72,15 +72,20 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 	t_complex	z;
 	t_complex	c;
 	int			i;
+	int			color;
 
 	i = 0;
 	z.r = x * fract->zoom.zoom_x + fract->limit_x;
 	z.i = y * fract->zoom.zoom_y + fract->limit_y;
 	init_c(&z, &c, fract);
-	while (i++ < fract->iterations_nbr
-			&& (z.r * z.r + z.i * z.i) <= fract->escape_radius)
+	while (i++ < fract->iterations_nbr && (z.r * z.r + z.i
+			* z.i) <= fract->escape_radius)
 		iterate_fractal(&z, &c, fract->name);
-	my_pixel_put(x, y, &fract->image, (i < fract->iterations_nbr) ? calculate_color(i, fract->iterations_nbr, fract->color_scheme) : WHITE);
+	if (i < fract->iterations_nbr)
+		color = calculate_color(i, fract->iterations_nbr, fract->color_scheme);
+	else 
+		color = WHITE;
+	my_pixel_put(x, y, &fract->image, color);
 }
 
 void	fractal_render(t_fractal *fract)
@@ -101,5 +106,5 @@ void	fractal_render(t_fractal *fract)
 		y++;
 	}
 	mlx_put_image_to_window(fract->mlx_connection, fract->mlx_window,
-		fract->image.image_ptr, 0, 0);
+			fract->image.image_ptr, 0, 0);
 }

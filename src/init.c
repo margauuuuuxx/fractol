@@ -73,7 +73,9 @@ void	fractal_init(t_fractal *fract)
 		malloc_error();
 	}
 	fract->image.pixels_ptr = mlx_get_data_addr(fract->image.image_ptr,
-			&fract->image.bpp, &fract->image.line_length, &fract->image.endian);
+												&fract->image.bpp,
+												&fract->image.line_length,
+												&fract->image.endian);
 	events_init(fract);
 	data_init(fract);
 }
