@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:43:06 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:50:26 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,3 @@ void		fractal_render(t_fractal *fract);
 int			ft_strncmp(const char *s, const char *s2, size_t n);
 void		ft_putstr_fd(char *s, int fd);
 double		atoi_dbl(char *str);
-t_complex	square_complex(t_complex z);
-t_complex	sum_complex(t_complex z1, t_complex z2);

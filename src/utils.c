@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/29 14:46:10 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:50:21 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,4 @@ double	atoi_dbl(char *str)
 		str++;
 	}
 	return ((integer_part + fractional_part) * s);
-}
-
-t_complex	sum_complex(t_complex z1, t_complex z2)
-{
-	t_complex	result;
-
-	result.r = z1.i + z2.i;
-	result.i = z1.i + z2.i;
-	return (result);
-}
-
-t_complex	square_complex(t_complex z)
-{
-	t_complex	result;
-
-	result.r = (z.r * z.r) - (z.i * z.i);
-	result.i = 2 * z.r * z.i;
-	return (result);
 }

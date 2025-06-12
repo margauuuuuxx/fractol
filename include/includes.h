@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 19:13:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:47:28 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:48:32 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,14 @@
 #define MINUS_MB 27
 #define PLUS 69 // on the numeric keypad
 #define MINUS 78
+#define C 8
 
 #define KEY_PRESS 2
 #define KEY_RELEASE 3
 #define SCROLL_UP 4 // zoom in 
 #define SCROLL_DOWN 5 // zoom out
 #define MOUSE_MOVE 6    // MotionNotify
-#define REDRAW 12       // ON_EXPOSE
 #define CLOSE_WINDOW 17 // clicking on the x of the window
-#define C 8
 
 #define BLACK 0x000000
 #define WHITE 0xFFFFFF
