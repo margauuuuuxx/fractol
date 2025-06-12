@@ -3,25 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:08:58 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/29 14:45:46 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:21:49 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#pragma once
 
-# include "../minilibx/mlx.h"
-# include <math.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-
-# define WIDTH 800
-# define HEIGHT 400
+#include "includes.h"
 
 // complex number struct
 typedef struct s_complex
@@ -78,4 +69,5 @@ double		atoi_dbl(char *str);
 t_complex	square_complex(t_complex z);
 t_complex	sum_complex(t_complex z1, t_complex z2);
 
-#endif
+//utils2
+void    error_exit(char **str);

@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 14:34:26 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/29 14:38:19 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:15:37 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
-
-// key codes
-#define ESC 53
-#define UP 126
-#define DOWN 125
-#define LEFT 123
-#define RIGHT 124
-#define PLUS 69 // on the numeric keypad
-#define MINUS 78
-
-#define SCROLL_UP 4   // zoom in
-#define SCROLL_DOWN 5 // zoom out
-#define MOUSE_MOVE 6
-
-#define R 15
-#define C 8
-#define H 4
-#define J 38
-#define P 35
-#define M 46
 
 /*
 KEYCODE VS KEYSYM:

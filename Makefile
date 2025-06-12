@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+         #
+#    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2024/08/28 18:40:54 by marlonco         ###   ########.fr        #
+#    Updated: 2025/06/12 19:07:02 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,9 +65,14 @@ $(MLX):
 	@echo "Making MiniLibX..."
 	@make -sC $(MLX_PATH) 2>/dev/null
 
+# $(NAME): $(OBJS)
+# 	@echo "Compiling fractol..."
+# 	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(INC) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+# 	@echo "Fractol ready."
+
 $(NAME): $(OBJS)
 	@echo "Compiling fractol..."
-	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(INC) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(INC) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 	@echo "Fractol ready."
 
 clean:

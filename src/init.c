@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2024/08/29 14:38:31 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:16:28 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
-
-#define KEY_PRESS 2
-#define KEY_RELEASE 3
-#define SCROLL_UP 4
-#define SCROLL_DOWN 5
-#define MOUSE_MOVE 6    // MotionNotify
-#define REDRAW 12       // ON_EXPOSE
-#define CLOSE_WINDOW 17 // clicking on the x of the window
 
 /*
 Key objectives:
@@ -29,8 +21,7 @@ Key objectives:
 
 static void	malloc_error(void)
 {
-	perror("Malloc error\n");
-	exit(EXIT_FAILURE);
+	error_exit("Malloc Failure\n");
 }
 
 // escape radius = 4 = 2^2 --> useful for rendering
