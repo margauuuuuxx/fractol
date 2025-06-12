@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2025/06/12 22:09:18 by marlonco         ###   ########.fr        #
+#    Updated: 2025/06/12 22:11:56 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME    = fractol
 CC      = gcc
 CFLAGS  = -Werror -Wextra -Wall
 
-# # Architecture
+# Architecture
 UNAME_S    := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin) # macOS
     MLX_FLAGS	= -framework OpenGL -framework AppKit

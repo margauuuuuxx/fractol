@@ -6,7 +6,7 @@
 /*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:36:17 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:50:21 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/12 22:22:40 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,36 @@ double	atoi_dbl(char *str)
 		str++;
 	}
 	return ((integer_part + fractional_part) * s);
+}
+
+int check_number(char *str)
+{
+	int	i;
+	int	dot_count;
+	
+    i = 0;
+    dot_count = 0;
+    if (str[i] == '+' || str[i] == '-')
+        i++;
+    if (str[i] == '\0')
+        return (0);
+    while (str[i])
+    {
+        if (str[i] == '.' || str[i] == ',')
+        {
+            dot_count++;
+            if (dot_count > 1)
+                return (0);
+        }
+        else if (str[i] < '0' || str[i] > '9')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+void	exit_julia_error(void)
+{
+	ft_putstr_fd("Error: Julia parameters must be numbers\n", STDERR_FILENO);
+	exit(EXIT_FAILURE);
 }
