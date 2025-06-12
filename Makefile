@@ -6,7 +6,7 @@
 #    By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 17:43:43 by marlonco          #+#    #+#              #
-#    Updated: 2025/06/12 21:45:55 by marlonco         ###   ########.fr        #
+#    Updated: 2025/06/12 22:09:18 by marlonco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,20 +18,18 @@ CC      = gcc
 CFLAGS  = -Werror -Wextra -Wall
 
 # # Architecture
-# ARCH    := $(shell uname -m)
-# ifeq ($(ARCH), arm64)
-#     # For Mac Silicon (ARM architecture)
-#     MLX_FLAGS = -L/opt/homebrew/opt/glfw/lib -lglfw -L$(MLX_PATH) -lmlx
-#     INC       = -I./include -I/opt/homebrew/opt/glfw/include -I$(MLX_PATH)
-# # else
-#     # For Mac Intel (x86_64 architecture)
-#     MLX_FLAGS = -L$(MLX_PATH) -lmlx -Lmlx
-#     INC       = 	-I./include/\
-# 					-I$(MLX_PATH)
-# endif
+UNAME_S    := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin) # macOS
+    MLX_FLAGS	= -framework OpenGL -framework AppKit
+    MLX_PATH	= minilibx/
+else ifeq ($(UNAME_S), Linux)
+    MLX_FLAGS	= -lX11 -lXext -lm -lbsd
+	MLX_PATH	= minilibx-linux/
+else 
+	$(error Unsupported platform)
+endif
 
 # Minilibx
-MLX_PATH   = minilibx/
 MLX_NAME   = libmlx.a
 MLX = $(MLX_PATH)$(MLX_NAME)
 
@@ -39,7 +37,7 @@ MLX = $(MLX_PATH)$(MLX_NAME)
 INC = 			-I ./include/\
 				-I ./lib/libft/\
 				-I ./lib/printf/\
-				-I ./lib/minilibx/
+				-I ./lib/$(MLX_PATH)
 
 # Sources
 SRC_PATH = src/
@@ -63,11 +61,11 @@ $(OBJ_PATH):
 
 $(MLX):
 	@echo "Making MiniLibX..."
-	@make -sC $(MLX_PATH) 2>/dev/null
+	@make -sC $(MLX_PATH)
 
 $(NAME): $(OBJS)
 	@echo "Compiling fractol..."
-	@$(CC) -fsanitize=address $(CFLAGS) $(OBJS) $(INC) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(INC) $(MLX) $(MLX_FLAGS) -o $(NAME)
 	@echo "Fractol ready."
 
 clean:
