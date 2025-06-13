@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:24:33 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:43:23 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:20:12 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ static void	data_init(t_fractal *fract)
 	fract->color_scheme = 0;
 }
 
+//mlx_hook(fract->mlx_window, SCROLL_UP, 1L << 0, mouse_handler, fract);
 static void	events_init(t_fractal *fract)
 {
-	mlx_hook(fract->mlx_window, KEY_PRESS, 0, key_handler, fract);
-	mlx_hook(fract->mlx_window, SCROLL_UP, 0, mouse_handler, fract);
+	mlx_hook(fract->mlx_window, KEY_PRESS, 1L << 0, key_handler, fract);
 	mlx_hook(fract->mlx_window, CLOSE_WINDOW, 0, close_handler, fract);
+	mlx_mouse_hook(fract->mlx_window, mouse_handler, fract);
 }
 
 void	fractal_init(t_fractal *fract)
@@ -73,9 +74,7 @@ void	fractal_init(t_fractal *fract)
 		malloc_error();
 	}
 	fract->image.pixels_ptr = mlx_get_data_addr(fract->image.image_ptr,
-												&fract->image.bpp,
-												&fract->image.line_length,
-												&fract->image.endian);
+			&fract->image.bpp, &fract->image.line_length, &fract->image.endian);
 	events_init(fract);
 	data_init(fract);
 }

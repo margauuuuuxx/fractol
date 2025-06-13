@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:47:31 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 22:35:20 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:20:30 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	handle_pixel(int x, int y, t_fractal *fract)
 		iterate_fractal(&z, &c, fract->name);
 	if (i < fract->iterations_nbr)
 		color = calculate_color(i, fract->iterations_nbr, fract->color_scheme);
-	else 
+	else
 		color = WHITE;
 	my_pixel_put(x, y, &fract->image, color);
 }
@@ -106,5 +106,5 @@ void	fractal_render(t_fractal *fract)
 		y++;
 	}
 	mlx_put_image_to_window(fract->mlx_connection, fract->mlx_window,
-			fract->image.image_ptr, 0, 0);
+		fract->image.image_ptr, 0, 0);
 }

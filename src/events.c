@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlonco <marlonco@students.s19.be>        +#+  +:+       +#+        */
+/*   By: marlonco <marlonco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 14:34:26 by marlonco          #+#    #+#             */
-/*   Updated: 2025/06/12 21:45:00 by marlonco         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:08:24 by marlonco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	zoom(t_fractal *fract, int x, int y, int flag)
 		fract->limit_y += y * fract->zoom.zoom_y * (1 - 1 / 1.3);
 		fract->zoom.zoom_x /= 1.3;
 		fract->zoom.zoom_y /= 1.3;
+		fract->iterations_nbr += 5;
 	}
 	else
 	{
@@ -36,6 +37,8 @@ void	zoom(t_fractal *fract, int x, int y, int flag)
 		fract->limit_y -= y * fract->zoom.zoom_y * (1 - 1.0 / 1.3);
 		fract->zoom.zoom_x *= 1.3;
 		fract->zoom.zoom_y *= 1.3;
+		if (fract->iterations_nbr > 30)
+			fract->iterations_nbr -= 5;
 	}
 }
 
